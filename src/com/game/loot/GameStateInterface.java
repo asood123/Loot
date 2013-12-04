@@ -14,13 +14,11 @@ public interface GameStateInterface {
 	
 	public List<Battle> getBattleList();
 	
-	public Player getCurrentPlayer();
+	public Player findPlayerById(int id);
 	
-	public Player findPlayer(int pId);
+	public Battle findBattleById(int id);
 	
-	public Battle findBattle(int bId);
+	public List<Battle> findBattlesbyPlayer(Player player);
 	
-	public List<Battle> findBattlesbyPlayer(int pId);
-	
-	public List<Battle> findBattlesStartedbyPlayer(int pId);
+	public List<Battle> findBattlesStartedbyPlayer(Player player);
 }
