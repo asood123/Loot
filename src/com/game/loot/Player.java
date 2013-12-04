@@ -99,4 +99,11 @@ public class Player {
 		System.out.println("");
 		
 	}
+	
+	/* This will be turned into an abstract method
+	 * subclasses should extend this and implement their own logic
+	 */
+	Move getNextMove(GameState gm) {
+		return null;
+	}
 }
