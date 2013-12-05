@@ -19,17 +19,19 @@ public class PirateShip extends Card {
 		}
 	}
 	
-	public int getValue(){
+	public int getValue() {
 		return value;
 	}
-	public Color getColor(){
+	
+	public Color getColor() {
 		return color;
 	}
-	public String toString(){
+	
+	public String toString() {
 		return color.toString() + value;
 	}
 	
-	public boolean equals(Card c){
+	public boolean equals(Card c) {
 		return ((c instanceof PirateShip) && 
 				(value == ((PirateShip)c).getValue()) &&
 				(color == ((PirateShip)c).getColor()));

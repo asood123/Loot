@@ -4,19 +4,42 @@ import java.util.List;
 
 public class LootEngine {
 	List<Player> players;
-	LootEngine(List<Player> players) {
+	GamePlay gamePlay;
+	GameState gameState;
+	
+	
+	public LootEngine(List<Player> players, GamePlay gamePlay, GameState gameState) {
 		this.players = players;
+		this.gamePlay = gamePlay;
+		this.gameState = gameState;
+	}
+	
+	public void endGame(){
+		System.out.println("Game Ended!");
+		
+		for (Player player : players){
+			System.out.println(player.getName() + ":" + player.getPoints());
+		}
 	}
 	
 	void play() {
-		GameState gameState = new GameState(0, null);
-		// Create Deck
-		// Deal Cards
+		System.out.println("Starting Game!");
+		System.out.println("Dealing cards...");
+		for (int x = 0; x < 6; x++) {
+			for (Player player : players) {
+				gamePlay.executeMove(player, new Move(ACTION.DRAW, null, null));
+			}
+		}
 		
 		// Loop until game end condition
-		for (Player player : players) {
-			Move nextMove = player.getNextMove(gameState);
-			// Update Gamestate with Move
+		while (!gamePlay.isEndOfGame()) {
+			for (Player player : players) {
+				System.out.println("Next move: " + player.getName());
+				gamePlay.collectMerchantShips(player);
+				Move nextMove = player.getNextMove(gameState);
+				gamePlay.executeMove(player, nextMove);
+			}
 		}
+		endGame();
 	}
 }
