@@ -1,28 +1,22 @@
 package com.game.loot;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class Battle {
-	private MerchantShip mShip;
-	private int mShipPlayerId;
-	private ArrayList<Attacker> pShips;
-	private int currentWinner;
+	private MerchantShip merchantShip;
+	private Player ownerPlayer;
+	
 	private int id;
-	private static int bCount = 1;
-	private int order; // to track trump order
+	private static int battleCount = 1;
 	
-	public Battle(MerchantShip m, int playerId, ArrayList<Attacker> pirates){
-		mShip = m;
-		mShipPlayerId = playerId;
-		pShips = pirates;
-		id = bCount;
-		bCount++;
-		currentWinner = calcCurrentWinner();
-		order = 1;
-	}
+	private List<Attacker> attackers;
 	
-	public Battle(MerchantShip m, int playerId){
-		this(m, playerId, new ArrayList<Attacker>());
+	public Battle(MerchantShip merchantShip, Player ownerPlayer) {
+		this.merchantShip = merchantShip;
+		this.ownerPlayer = ownerPlayer;
+		attackers = new ArrayList<Attacker>();
+		id = battleCount++;
 	}
 	
 	// getters
@@ -30,23 +24,65 @@ public class Battle {
 		return id;
 	}
 	
-	public MerchantShip getMShip(){
-		return mShip;
+	public MerchantShip getMerchantShip() {
+		return merchantShip;
 	}
 	
-	public int getMShipPlayerId(){
-		return mShipPlayerId;
+	public int getOwnerPlayerId() {
+		return ownerPlayer.getId();
 	}
 	
-	public ArrayList<Attacker> getPShips(){
-		return pShips;
+	public CardSet getAllCards() {
+		CardSet cards = new CardSet();
+		
+		cards.addCard(merchantShip);
+		for (Attacker attacker : attackers){
+			cards.addCardSet(attacker.getAttackCards());
+		}
+		return cards;
+	}
+	
+	public Attacker getAttackerByPlayerId(int playerId) {
+		for (Attacker attacker : attackers) {
+			if (attacker.getPlayerId() == playerId) {
+				return attacker;
+			}
+		}
+		return null;
+	}
+	
+	/*
+	 * General function to add card to a battle
+	 */
+	public void addAttackCard(int playerId, Card card) {
+		Attacker attacker = getAttackerByPlayerId(playerId);
+		if (attacker == null) {
+			Attacker newAttacker = new Attacker(playerId, card);
+			
+			// Place at top of list
+			attackers.add(0, newAttacker);
+		} else {
+			attacker.addCard(card);
+			
+			// Move to top of list to maintain order
+			attackers.remove(attacker);
+			attackers.add(0, attacker);
+		}
+	}
+	
+
+	
+	// TODO: Implement
+	public boolean isBattleOver(int currentPlayerId) {
+		// If we've gone an entire round and the same player is winning
+		return false;
 	}
 	
 	/*
 	 * Broken. TODO: doesn't account for trumps yet
 	 */
-	
-	public int calcCurrentWinner(){
+	public int calcCurrentWinner() {
+		/*
 		if (pShips.size() == 0) {
 			return mShipPlayerId;
 		}
@@ -113,62 +149,21 @@ public class Battle {
 					return -1;
 				}
 			}
-		}
+		}*/
+		return 0;
 	}
-	
-	/*
-	 * General function to add card to a battle
-	 */
-	
-	public void addCard(Card c, int pId){
-		// if this player is already in battle, add to their attacker element
-		// else create a new one
 
-		Attacker a = findAttacker(pId);
-		if (a != null){
-			a.addCard(c, order++);
-		}
-		else {
-			addAttacker(c, pId);
-		}
-	}
 	
-	public void addAttacker(Card c, int pId) {
-		pShips.add(new Attacker(c, pId, order++));
-		currentWinner = calcCurrentWinner();
-	}
-	
-	public CardSet allCards(){
-		CardSet cards = new CardSet();
+	public String toString() {
+		String toPrint = new String();
 		
-		cards.addCard(mShip);
-		for (Attacker a: pShips){
-			cards.addCardSet(a.getCardSet());
-		}
-		return cards;
-	}
-	
-	public String toString(){
-		String s = new String();
+		toPrint += "P" + ownerPlayer.getId() + ":" + merchantShip.toString();
 		
-		s += "P" + mShipPlayerId + ":" + mShip.toString();
-		
-		for (Attacker a: pShips){
-			s+= " | ";
-			s+= a.getCardSet().toString();
+		for (Attacker attacker : attackers){
+			toPrint += " | ";
+			toPrint += attacker.getAttackCards().toString();
 		}
 		
-		return s;
-	}
-	
-	// find functions
-	
-	private Attacker findAttacker(int pId){
-		for (Attacker a: pShips){
-			if (a.getPlayerId() == pId) {
-				return a;
-			}
-		}
-		return null;
+		return toPrint;
 	}
 }
