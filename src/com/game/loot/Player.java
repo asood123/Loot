@@ -1,109 +1,58 @@
 package com.game.loot;
 
-import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
 
-public class Player {
-	private String name;
-	private CardSet mShips;
-	private int currentHandCount;
+
+public abstract class Player {
 	private int id;
-	private static int pCount = 1;
-	private ArrayList<Battle> activeBattles;
+	private String name;
+	private Set<MerchantShip> merchantShipsWon;
+	
+	public static int playerCount = 1;
 
-	public Player(String n, CardSet merchantShips, int hand){
-		name = n;
-		mShips = merchantShips;
-		currentHandCount = hand;
-		id = pCount;
-		pCount++;
-		activeBattles = new ArrayList<Battle>();
-	}
-	
-	public Player(){
-		this("Jack Sparrow" + pCount, new CardSet(), 6);
-	}
-	
-	public Player(String n){
-		this(n, new CardSet(), 6);
+	public Player(String name) {
+		this.id = playerCount++;
+		this.name = name;
+		merchantShipsWon = new HashSet<MerchantShip>();
 	}
 	
 	// Getters
-	public String getName(){
+	public String getName() {
 		return name;
 	}
 	
-	public CardSet getMShips(){
-		return mShips;
-	}
-	
-	public int getHandCount(){
-		return currentHandCount;
-	}
-	
-	public int getId(){
+	public int getId() {
 		return id;
 	}
 	
-	public int getPCount(){
-		return pCount;
-	}
-	
-	public ArrayList<Battle> getActiveBattles(){
-		return activeBattles;
-	}
-	
-	// Setters
-	
-	public void setName(String n){
-		name = n;
-	}
-	
-	public void insertCardInHand(){
-		currentHandCount++;
-	}
-	
-	public void removeCardFromHand(){
-		currentHandCount--;
-	}
-	
-	public void addBattle(Battle b){
-		activeBattles.add(b);
-	}
-	
-	public void addMShip(MerchantShip m){
-		mShips.addCard(m);
-	}
-	
-	public void removeBattle(Battle b){
-		activeBattles.remove(b);
+	public int getPoints() {
+		int points = 0;
+		
+		for (MerchantShip ship : merchantShipsWon) {
+			points += ship.getValue();
+		}
+		
+		return points;
 	}
 
-	// Other
-	
-	public boolean isPartOfBattle(int battleId){
-		for (Battle b: activeBattles){
-			if (b.getId() == battleId){
-				return true;
-			}
-		}
-		return false;
+	public void addMerchantShipWon(MerchantShip card) {
+		merchantShipsWon.add(card);
 	}
 	
-	// test/debug functions
+	public abstract int getHandCount();
 	
-	public void printPlayerStats(){
+	public abstract void addCard(Card card);
+	
+	public abstract void removeCard(Card card);
+
+
+	public void printPlayerStats() {
 		System.out.println("N: " + name + " | Id: " + id);
-		System.out.println("handCount: " + currentHandCount);
-		System.out.println("mShips: " + mShips.getCount());
-		System.out.println("activeBattles: "+ activeBattles.size());
+		System.out.println("handCount: " + getHandCount());
+		System.out.println("points: " + getPoints());
 		System.out.println("");
-		
 	}
-	
-	/* This will be turned into an abstract method
-	 * subclasses should extend this and implement their own logic
-	 */
-	Move getNextMove(GameState gm) {
-		return null;
-	}
+
+	public abstract Move getNextMove(GameState gm);
 }
