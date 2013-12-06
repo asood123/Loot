@@ -14,11 +14,24 @@ public class LootEngine {
 		this.gameState = gameState;
 	}
 	
-	public void endGame(){
+	public void endGame() {
 		System.out.println("Game Ended!");
 		
 		for (Player player : players){
 			System.out.println(player.getName() + ":" + player.getPoints());
+		}
+	}
+	
+	public void printBoard() {
+		for (Player player : players) {
+			List<Battle> battles = gameState.findBattlesOwnedByPlayer(player);
+			
+			if (battles.size() > 0) {
+				System.out.println("Battles in front of " + player.getName());
+				for (Battle battle : battles) {
+					System.out.println(battle);
+				}
+			}
 		}
 	}
 	
@@ -34,10 +47,20 @@ public class LootEngine {
 		// Loop until game end condition
 		while (!gamePlay.isEndOfGame()) {
 			for (Player player : players) {
-				System.out.println("Next move: " + player.getName());
+				System.out.println();
+				System.out.println("*** " + player.getName() + "'s Move");
+				printBoard();
+				System.out.println();
 				gamePlay.collectMerchantShips(player);
-				Move nextMove = player.getNextMove(gameState);
-				gamePlay.executeMove(player, nextMove);
+
+				boolean validMove = false;
+				while (!validMove) {
+					Move nextMove = player.getNextMove(gameState);
+					validMove = gamePlay.executeMove(player, nextMove);
+					if (!validMove) {
+						System.out.println("Invalid move, please try again");
+					}
+				}
 			}
 		}
 		endGame();

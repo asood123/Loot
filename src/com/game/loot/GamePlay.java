@@ -30,7 +30,7 @@ public abstract class GamePlay {
 		return false;
 	}
 	
-	public void executeMove(Player player, Move move) {
+	public boolean executeMove(Player player, Move move) {
 		switch(move.getAction()) {
 		case DRAW:
 			playerDrawsCard(player, deck);
@@ -42,18 +42,23 @@ public abstract class GamePlay {
 			gameState.getBattleList().add(new Battle(ship, player));			
 			break;
 		case PLAY_ATTACK:
-			MerchantShip shipAttacked = move.getMerchantShip();
-			
-			List<Battle> battles = gameState.getBattleList();
-			for (Battle battle : battles) {
-				if (battle.getMerchantShip() == shipAttacked) {
-					battle.addAttackCard(player.getId(), move.getCard());
-				}
+			Battle battle = move.getBattle();
+			AttackCard attackCard = (AttackCard) move.getCard();
+
+			if (!battle.addAttackCard(player, attackCard)) {
+				// Not a valid attack
+				return false;
 			}
-			break;
+			
+			player.removeCard(attackCard);
+		case DISCARD:
+			Card discardCard = move.getCard();
+			player.removeCard(discardCard);
+			gameState.getDiscardCards().addCard(discardCard);
 		default:
 			break;
 		}
+		return true;
 	}
 	
 	public void collectMerchantShips(Player player) {

@@ -44,7 +44,7 @@ public class Battle {
 	
 	public Attacker getAttackerByPlayerId(int playerId) {
 		for (Attacker attacker : attackers) {
-			if (attacker.getPlayerId() == playerId) {
+			if (attacker.getPlayer().getId() == playerId) {
 				return attacker;
 			}
 		}
@@ -54,20 +54,38 @@ public class Battle {
 	/*
 	 * General function to add card to a battle
 	 */
-	public void addAttackCard(int playerId, Card card) {
-		Attacker attacker = getAttackerByPlayerId(playerId);
+	public boolean addAttackCard(Player player, AttackCard card) {
+		Attacker attacker = getAttackerByPlayerId(player.getId());
 		if (attacker == null) {
-			Attacker newAttacker = new Attacker(playerId, card);
+			// New attacker
+			attacker = new Attacker(player, card);
 			
+			// Make sure that no other attacker is using this color
+			for (Attacker a : attackers) {
+				AttackCard attackCard = (AttackCard) a.getAttackCards().getCards().get(0);
+				if (attackCard.getColor() == card.getColor()) {
+					System.out.println("An attack card of that color has already been played in this battle.");
+					return false;
+				}
+			}
 			// Place at top of list
-			attackers.add(0, newAttacker);
+			attackers.add(0, attacker);
 		} else {
-			attacker.addCard(card);
+			// Existing attacker
+			// Make sure this is the correct color for this player
+			AttackCard attackCard = (AttackCard) attacker.getAttackCards().getCards().get(0);
+			if (attackCard.getColor() != card.getColor()) {
+				System.out.println("Need to play attack card of the same color");
+				return false;
+			}
 			
+			attacker.addCard(card);
+						
 			// Move to top of list to maintain order
 			attackers.remove(attacker);
 			attackers.add(0, attacker);
 		}
+		return true;
 	}
 	
 
@@ -157,11 +175,12 @@ public class Battle {
 	public String toString() {
 		String toPrint = new String();
 		
-		toPrint += "P" + ownerPlayer.getId() + ":" + merchantShip.toString();
+		toPrint += getId() + ": " + merchantShip.toString();
 		
 		for (Attacker attacker : attackers){
 			toPrint += " | ";
-			toPrint += attacker.getAttackCards().toString();
+			toPrint += attacker.getPlayer().getName() + ": ";
+			toPrint += attacker.getAttackCards().toString() + " ";
 		}
 		
 		return toPrint;

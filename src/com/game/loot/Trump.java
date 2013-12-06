@@ -1,20 +1,18 @@
 package com.game.loot;
 
-public class Trump extends Card {
-	private Color color;
+public class Trump extends AttackCard {
+	
 	private int value;
 	
-	public Trump(Color c){
-		color = c;
+	public Trump(Color color) {
+		super(color);
 		value = Integer.MAX_VALUE;
 	}
 	
-	public Color getColor(){
-		return color;
-	}
 	public int getValue(){
 		return value;
 	}
+	
 	public String toString(){
 		return "T" + color.toString();
 	}
