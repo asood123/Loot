@@ -2,16 +2,16 @@ package com.game.loot;
 
 public class Attacker {
 	private CardSet attackCards;
-	private int playerId;
+	private Player player;
 	
-	public Attacker(int playerId, Card card) {
+	public Attacker(Player player, Card card) {
 		if (!((card instanceof PirateShip) ||
 				(card instanceof Trump))) {
 			throw new RuntimeException("Can't attack with something other than PirateShip or Trump");
 		}
 		attackCards = new CardSet();
 		attackCards.addCard(card);
-		this.playerId = playerId;
+		this.player = player;
 	}
 	
 	// getters
@@ -19,8 +19,8 @@ public class Attacker {
 		return attackCards;
 	}
 	
-	public int getPlayerId() {
-		return playerId;
+	public Player getPlayer() {
+		return player;
 	}
 	
 	// other functions
@@ -35,7 +35,7 @@ public class Attacker {
 	
 	public String toString() {
 		String s = new String();
-		s += "P" + playerId + ":" + attackCards.toString();
+		s += "P" + player.getId() + ":" + attackCards.toString();
 		return s;
 	}
 }

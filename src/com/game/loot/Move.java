@@ -3,7 +3,8 @@ package com.game.loot;
 enum ACTION {
 	DRAW,
 	PLAY_MERCHANT_SHIP,
-	PLAY_ATTACK
+	PLAY_ATTACK,
+	DISCARD
 };
 
 public class Move {
@@ -11,12 +12,12 @@ public class Move {
 	private Card card;
 	
 	// UGLY:  Might want to move to subclasses of Move that calls the constructor
-	private MerchantShip merchantShip;
+	private Battle battle;
 	
-	Move(ACTION action, Card card, MerchantShip merchantShip) {
+	Move(ACTION action, Card card, Battle battle) {
 		this.action = action;
 		this.card = card;
-		this.merchantShip = merchantShip;
+		this.battle = battle;
 	}
 	
 	public ACTION getAction() {
@@ -27,7 +28,7 @@ public class Move {
 		return card;
 	}
 	
-	public MerchantShip getMerchantShip() {
-		return merchantShip;
+	public Battle getBattle() {
+		return battle;
 	}
 }

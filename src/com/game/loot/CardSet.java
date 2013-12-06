@@ -63,6 +63,15 @@ public class CardSet {
 		else return false;
 	}
 	
+	public Card findCardFromString(String searchString) {
+		for (Card card : cards) {
+			if (card.toString().equals(searchString)) {
+				return card;
+			}
+		}
+		return null;
+	}
+	
 	public boolean hasCard(Card c) {
 		for (Card l: cards) {
 			if (c instanceof MerchantShip) {
@@ -192,7 +201,7 @@ public class CardSet {
 		String s = new String();
 			
 		for (Card c: cards) {
-			s += c.toString() + " ";
+			s += c + " ";
 		}
 		return s;
 	}

@@ -5,8 +5,8 @@ import java.util.List;
 
 public class VirtualGame {
 	public static void main(String[] args){
-		Player p1 = new VirtualPlayer("Henry");
-		Player p2 = new VirtualPlayer("Aseem");
+		Player p1 = new PhysicalPlayer("Derek", true);
+		Player p2 = new PhysicalPlayer("Aseem", true);
 		
 		List<Player> players = new ArrayList<Player>();
 		players.add(p1);

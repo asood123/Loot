@@ -73,9 +73,8 @@ public class GameState {
 		}
 		return null;
 	}
-/*
-	@Override
-	public List<Battle> findBattlesbyPlayer(Player player) {
+
+	public List<Battle> findBattlesOwnedByPlayer(Player player) {
 		int pId = player.getId();
 		List<Battle> battleList = new ArrayList<Battle>();
 		
@@ -83,17 +82,10 @@ public class GameState {
 			if (battle.getOwnerPlayerId() == pId) {
 				battleList.add(battle);
 			}
-			else {
-				for (Attacker a: b.getPShips()){
-					if (a.getPlayerId() == pId){
-						bList.add(b);
-					}
-				}
-			}
 		}
-		return bList;
+		return battleList;
 	}
-
+/*
 	@Override
 	public List<Battle> findBattlesStartedbyPlayer(Player player) {
 		int pId = player.getId();
