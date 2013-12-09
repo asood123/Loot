@@ -30,8 +30,6 @@ public class PhysicalPlayer extends Player {
 	public Move getNextMove(GameState gameState) {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		
-		
-		
 		if (virtualGamePlay) {
 			System.out.println(getName() + "'s Hand:");
 			System.out.println(hand);

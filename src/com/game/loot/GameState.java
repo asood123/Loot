@@ -18,6 +18,8 @@ public class GameState {
 
 	private List<Battle> battles;
 	
+	private List<Move> moveHistory;
+	
 	// initializers
 	
 	public GameState(List<Player> players) {
@@ -31,6 +33,7 @@ public class GameState {
 		
 		// initiate battles
 		battles = new ArrayList<Battle>();
+		moveHistory = new ArrayList<Move>();
 		
 	}
 
@@ -46,6 +49,18 @@ public class GameState {
 	
 	public Player getCurrentPlayer() {
 		return currentPlayer;
+	}
+	
+	public void addMoveToHistory(Move move) {
+		moveHistory.add(move);
+	}
+	
+	public List<Move> getMoveHistory() {
+		return moveHistory;
+	}
+	
+	public int getMoveCount() {
+		return moveHistory.size();
 	}
 
 	// Setters

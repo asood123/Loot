@@ -19,7 +19,8 @@ public abstract class GamePlay {
 	public abstract void playerDrawsCard(Player player, CardSet deck);
 	
 	boolean isEndOfGame() {
-		if (deck.getCount() == 0){ // if decksize is 0
+		if (deck.getCount() == 0) {
+			// if decksize is 0
 			// and any player is down to zero cards
 			for (Player player : gameState.getPlayers()) {
 				if (player.getHandCount() == 0) {
@@ -39,13 +40,13 @@ public abstract class GamePlay {
 			MerchantShip ship = (MerchantShip) move.getCard();
 			player.removeCard(move.getCard());
 			
-			gameState.getBattleList().add(new Battle(ship, player));			
+			gameState.getBattleList().add(new Battle(ship, player, gameState.getMoveCount()));			
 			break;
 		case PLAY_ATTACK:
 			Battle battle = move.getBattle();
 			AttackCard attackCard = (AttackCard) move.getCard();
 
-			if (!battle.addAttackCard(player, attackCard)) {
+			if (!battle.addAttackCard(player, attackCard, gameState.getMoveCount())) {
 				// Not a valid attack
 				return false;
 			}
@@ -67,13 +68,18 @@ public abstract class GamePlay {
 		
 		// See if any battles are won by current player
 		for (Battle battle : ongoingBattles) {
-			if (battle.isBattleOver(player.getId())) {
-				doneBattles.add(battle);
+			if (battle.isBattleOver(player.getId(), gameState.getMoveCount(), gameState.getPlayers().size())) {
+				if (battle.getWinningPlayer() == player) {
+					doneBattles.add(battle);
+				} else {
+					System.out.println("BUG? Battle " + battle.getId() + " is over, but " + player.getName() + " wasn't the winner");
+				}
 			}
 		}
 		
 		// For each done battle, remove from list, discard cards, update player
 		for (Battle battle : doneBattles) {
+			System.out.println("Battle #" + battle.getId() + " is finished!");
 			// Remove battle from ongoing battles
 			ongoingBattles.remove(battle);
 			
@@ -83,6 +89,7 @@ public abstract class GamePlay {
 			
 			// Award merchant cards to current player
 			player.addMerchantShipWon(battle.getMerchantShip());
+			System.out.println(player.getName() + " got a ship worth " + battle.getMerchantShip().getValue() + " points and now has " + player.getPoints());
 		}		
 	}
 }
