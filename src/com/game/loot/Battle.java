@@ -73,18 +73,12 @@ public class Battle {
 		int temp = 0;
 		
 		for (Attacker a: attackers) {
-			if (a.getAttackCards().hasTrump()) {
+			temp = a.getScore();
+			if (temp == Integer.MAX_VALUE) {
 				return Integer.MAX_VALUE;
 			}
-			else {
-				temp = 0;
-				for (Card c: a.getAttackCards().getCards()) {
-					temp += c.getValue();
-				}
-				if (temp > hScore) {
-					hScore = temp;
-					temp = 0;
-				}
+			if (temp > hScore) {
+				hScore = temp;
 			}
 		}
 		return hScore;
