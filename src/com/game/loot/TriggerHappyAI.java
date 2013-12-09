@@ -10,6 +10,7 @@ public class TriggerHappyAI extends VirtualPlayer {
 	
 	TriggerHappyAI(String name) {
 		super(name);
+		rand = new Random();
 	}
 	
 	@Override
