@@ -7,10 +7,12 @@ public class VirtualGame {
 	public static void main(String[] args){
 		Player p1 = new PhysicalPlayer("Derek", true);
 		Player p2 = new PhysicalPlayer("Aseem", true);
+		Player p3 = new TriggerHappyAI("Henry");
 		
 		List<Player> players = new ArrayList<Player>();
 		players.add(p1);
 		players.add(p2);
+		players.add(p3);
 		GameState gameState = new GameState(players);
 		
 		CardSet deck = CardSet.addFullDeck();

@@ -169,6 +169,16 @@ public class CardSet {
 		return false;
 	}
 	
+
+	public boolean hasMShip(){
+		for (Card c: cards){
+			if (c instanceof MerchantShip) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
 	public int numMShips(){
 		int count = 0;
 		for(Card c: cards) {

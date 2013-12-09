@@ -31,6 +31,19 @@ public class Attacker {
 		return lastMoveNum;
 	}
 	
+	public Color getAttackerColor(){
+		if (attackCards.getCards().size() > 0) {
+			Card c = attackCards.getCards().get(0);
+			if (c instanceof PirateShip) {
+				return ((PirateShip) c).getColor();
+			}
+			else if (c instanceof Trump) {
+				return ((Trump) c).getColor();
+			}
+		}
+		return null;
+	}
+	
 	// other functions
 	public void addCard(AttackCard c, int moveNum) {
 		attackCards.addCard(c);

@@ -58,6 +58,10 @@ public class Battle {
 		return null;
 	}
 	
+	public List<Attacker> getAttackers() {
+		return attackers;
+	}
+	
 	protected boolean isColorInUse(Color c) {
 		// Make sure that no other attacker is using this color
 		for (Attacker a : attackers) {
