@@ -56,11 +56,14 @@ public class LootEngine {
 				boolean validMove = false;
 				while (!validMove) {
 					Move nextMove = player.getNextMove(gameState);
+					System.out.println("Proposed Move: " + nextMove.toString());
 					validMove = gamePlay.executeMove(player, nextMove);
 					if (!validMove) {
 						System.out.println("Invalid move, please try again");
+						return;
 					} else {
 						gameState.addMoveToHistory(nextMove);
+						player.addMove(nextMove);
 					}
 				}
 			}

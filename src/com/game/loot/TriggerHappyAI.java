@@ -15,7 +15,7 @@ public class TriggerHappyAI extends VirtualPlayer {
 	
 	@Override
 	public Move getNextMove(GameState gm) {
-		runPreMoveHelpers(gm);
+		super.runPreMoveHelpers(gm);
 		
 		
 		// if there is a battle
@@ -35,11 +35,11 @@ public class TriggerHappyAI extends VirtualPlayer {
 		}
 		
 		
-		// flip a coin to draw or play merchant ships
-		
-		if (getHand().hasMShip()) {
+		// flip a coin to draw or play merchant ships (assuming either is possible)
+				
+		if (getHand().hasMShip() && getDeckSize() > 0) {
 			int n = rand.nextInt(2);
-			
+
 			if (n==0) {
 				for (Card c: getHand().getCards()){
 					if (c instanceof MerchantShip) {
@@ -48,27 +48,48 @@ public class TriggerHappyAI extends VirtualPlayer {
 				}
 			}
 		}
-	
-		return new Move(ACTION.DRAW, null, null);
+		else if (getHand().hasMShip() && getDeckSize() == 0) {
+			// decksize is 0, so can only play mShip
+			
+			for (Card c: getHand().getCards()){
+				if (c instanceof MerchantShip) {
+					return new Move(ACTION.PLAY_MERCHANT_SHIP, c, null);
+				}
+			}
+		}
+		else if (!getHand().hasMShip() && getDeckSize() == 0){
+			// no merchant ships in hand and deck depleted. discard random card
+			return new Move(ACTION.DISCARD, randCard(), null);
+		}
+
+		// no mships and decksize > 0, so draw a card
+		return new Move(ACTION.DRAW, null, null);			
+
 	}
 	
 	public Card canAttack(Battle b) {
-		// if there is a card in my hand that can attack this battle, return the largest one
+		// if there is a card in my hand that can attack this battle, return one
 		
-		for (Card c: getHand().getCards()) {
-			if (c instanceof PirateShip) {
-				if (canPirateShipCardAttack(b, (PirateShip)c)) {
-					return c;
+		if (!b.isBattleUsingTrumps()) {
+			// if no trump played, see if a pirateship can be played.
+			for (Card c: getHand().getCards()) {
+				if (c instanceof PirateShip) {
+					if (canPirateShipCardAttack(b, (PirateShip)c)) {
+						return c;
+					}
 				}
 			}
-			else if (c instanceof Trump) {
+		}
+		
+		// Either no trumps played or no pirateship can be played
+		// So, evaluate trumps now
+		for (Card c: getHand().getCards()) {
+			if (c instanceof Trump) {
 				if (canTrumpCardAttack(b, (Trump)c)) {
 					return c;
 				}
 			}
 		}
-		
-		
 		return null;
 	}
 	
@@ -83,7 +104,10 @@ public class TriggerHappyAI extends VirtualPlayer {
 		
 		// check 
 		if (a != null) {
-			return a.getAttackerColor() == c.getColor();
+			if (a.getAttackCards().getCards().size() > 0) {
+				// this is to account for the empty ownerAttacker
+				return a.getAttackerColor() == c.getColor();
+			}
 		}
 		
 		for (Attacker at: b.getAttackers()) {
@@ -94,7 +118,30 @@ public class TriggerHappyAI extends VirtualPlayer {
 		return true;
 	}
 	
-	public boolean canTrumpCardAttack(Battle b, Card c){
+	public boolean canTrumpCardAttack(Battle b, Trump c){
+		
+		if (c.getColor() == Color.Admiral){
+			if (getId() == b.getOwnerPlayerId()){
+				return true;
+			}
+		}
+		else {
+			Attacker a = b.getAttackerByPlayerId(getId());
+			if ((a != null) && (a.getAttackerColor() == c.getColor())) {
+				return true;
+			}
+		}
+		
 		return false;
+	}
+	
+	public Card randCard(){
+		Random r = new Random();
+		if (getHand().getCards().size() == 0) {
+			System.err.println("ERROR: No cards in hand and deck depleted. Game should be over");
+			return null;
+		}
+		int n = r.nextInt(getHand().getCards().size());
+		return getHand().getCards().get(n);
 	}
 }

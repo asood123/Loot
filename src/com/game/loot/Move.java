@@ -4,7 +4,30 @@ enum ACTION {
 	DRAW,
 	PLAY_MERCHANT_SHIP,
 	PLAY_ATTACK,
-	DISCARD
+	DISCARD;
+	
+	@Override
+	public String toString(){
+		String value = "";
+		switch (ordinal()) {
+		case 0: 
+			value = "Draw";
+			break;
+		case 1: 
+			value = "Play";
+			break;
+		case 2: 
+			value = "Attack";
+			break;
+		case 3: 
+			value = "Discard";
+			break;
+		default: 
+			value = "Error";
+			break;
+		}
+		return value;
+	}
 };
 
 public class Move {
@@ -30,5 +53,18 @@ public class Move {
 	
 	public Battle getBattle() {
 		return battle;
+	}
+	
+	public String toString() {
+		String s = action.toString();
+		
+		if (card != null) {
+			s+= " " + card.toString();
+		}
+		if (battle != null) {
+			s+= " | " + battle.toString();
+		}
+		
+		return s;
 	}
 }

@@ -18,7 +18,7 @@ public abstract class GamePlay {
 	
 	public abstract void playerDrawsCard(Player player, CardSet deck);
 	
-	boolean isEndOfGame() {
+	boolean isEndOfGame() {		
 		if (deck.getCount() == 0) {
 			// if decksize is 0
 			// and any player is down to zero cards
