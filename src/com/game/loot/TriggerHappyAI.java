@@ -2,7 +2,10 @@ package com.game.loot;
 
 import java.util.Random;
 
-// AI that always attacks
+/*
+ * AI that always attacks if it can
+ * Otherwise, flips a coin to draw or play merchant ship
+ */
 
 public class TriggerHappyAI extends VirtualPlayer {
 
@@ -25,7 +28,7 @@ public class TriggerHappyAI extends VirtualPlayer {
 		
 		if (gm.getBattleList().size() > 0) {
 			for (Battle b: gm.getBattleList()) {
-				// if valid way to attack this battle, do it
+				// if valid and winning way to attack this battle, do it
 				Card c = canAttack(b);
 				
 				if (c != null) {
@@ -33,7 +36,6 @@ public class TriggerHappyAI extends VirtualPlayer {
 				}
 			}
 		}
-		
 		
 		// flip a coin to draw or play merchant ships (assuming either is possible)
 				
@@ -68,7 +70,7 @@ public class TriggerHappyAI extends VirtualPlayer {
 	}
 	
 	public Card canAttack(Battle b) {
-		// if there is a card in my hand that can attack this battle, return one
+		// if there is a card in my hand that can attack this battle and win it, return one
 		
 		if (!b.isBattleUsingTrumps()) {
 			// if no trump played, see if a pirateship can be played.
@@ -101,12 +103,14 @@ public class TriggerHappyAI extends VirtualPlayer {
 		// else check if anyone else is using this color
 		
 		Attacker a = b.getAttackerByPlayerId(getId());
-		
+
 		// check 
 		if (a != null) {
 			if (a.getAttackCards().getCards().size() > 0) {
 				// this is to account for the empty ownerAttacker
-				return a.getAttackerColor() == c.getColor();
+				if (a.getScore() + c.getValue() >= b.getHighScore()) {
+					return a.getAttackerColor() == c.getColor();
+				}
 			}
 		}
 		
@@ -115,7 +119,11 @@ public class TriggerHappyAI extends VirtualPlayer {
 				return false;
 			}
 		}
-		return true;
+		
+		if (c.getValue() >= b.getHighScore()){
+			return true;
+		}
+		return false;
 	}
 	
 	public boolean canTrumpCardAttack(Battle b, Trump c){

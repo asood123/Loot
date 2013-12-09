@@ -58,8 +58,6 @@ public class VirtualPlayer extends Player {
 		// update known and unknown card sets
 		updateUnknownCards(gm.getPlayers());
 		updateDeckSize(gm.getPlayers());
-		
-		// will probably have other things eventually
 	}
 	
 	public void updateUnknownCards(List<Player> players){

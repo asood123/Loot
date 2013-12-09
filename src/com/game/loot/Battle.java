@@ -62,6 +62,34 @@ public class Battle {
 		return attackers;
 	}
 	
+	public Attacker getWinningAttacker(){
+		return winningAttacker;
+	}
+	
+	public int getHighScore(){
+		// returns the sum of the highest attack cards
+		
+		int hScore = 0;
+		int temp = 0;
+		
+		for (Attacker a: attackers) {
+			if (a.getAttackCards().hasTrump()) {
+				return Integer.MAX_VALUE;
+			}
+			else {
+				temp = 0;
+				for (Card c: a.getAttackCards().getCards()) {
+					temp += c.getValue();
+				}
+				if (temp > hScore) {
+					hScore = temp;
+					temp = 0;
+				}
+			}
+		}
+		return hScore;
+	}
+	
 	protected boolean isColorInUse(Color c) {
 		// Make sure that no other attacker is using this color
 		for (Attacker a : attackers) {

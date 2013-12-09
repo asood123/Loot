@@ -44,6 +44,17 @@ public class Attacker {
 		return null;
 	}
 	
+	public int getScore(){
+		int score = 0;
+		if (attackCards.hasTrump()) {
+			return Integer.MAX_VALUE;
+		}
+		for (Card c: attackCards.getCards()) {
+			score += c.getValue();
+		}
+		return score;
+	}
+	
 	// other functions
 	public void addCard(AttackCard c, int moveNum) {
 		attackCards.addCard(c);
