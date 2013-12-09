@@ -59,6 +59,8 @@ public class LootEngine {
 					validMove = gamePlay.executeMove(player, nextMove);
 					if (!validMove) {
 						System.out.println("Invalid move, please try again");
+					} else {
+						gameState.addMoveToHistory(nextMove);
 					}
 				}
 			}

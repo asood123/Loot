@@ -5,17 +5,24 @@ import java.util.List;
 
 public class Battle {
 	private MerchantShip merchantShip;
-	private Player ownerPlayer;
+	private Attacker ownerAttacker;
 	
 	private int id;
 	private static int battleCount = 1;
 	
 	private List<Attacker> attackers;
 	
-	public Battle(MerchantShip merchantShip, Player ownerPlayer) {
+	private Attacker winningAttacker;
+	
+	public Battle(MerchantShip merchantShip, Player ownerPlayer, int moveNum) {
 		this.merchantShip = merchantShip;
-		this.ownerPlayer = ownerPlayer;
+		ownerAttacker = new Attacker(ownerPlayer, moveNum);
+		
 		attackers = new ArrayList<Attacker>();
+		attackers.add(ownerAttacker);
+
+		winningAttacker = ownerAttacker;
+		
 		id = battleCount++;
 	}
 	
@@ -29,7 +36,7 @@ public class Battle {
 	}
 	
 	public int getOwnerPlayerId() {
-		return ownerPlayer.getId();
+		return ownerAttacker.getPlayer().getId();
 	}
 	
 	public CardSet getAllCards() {
@@ -51,124 +58,149 @@ public class Battle {
 		return null;
 	}
 	
-	/*
-	 * General function to add card to a battle
-	 */
-	public boolean addAttackCard(Player player, AttackCard card) {
-		Attacker attacker = getAttackerByPlayerId(player.getId());
-		if (attacker == null) {
-			// New attacker
-			attacker = new Attacker(player, card);
-			
-			// Make sure that no other attacker is using this color
-			for (Attacker a : attackers) {
-				AttackCard attackCard = (AttackCard) a.getAttackCards().getCards().get(0);
-				if (attackCard.getColor() == card.getColor()) {
-					System.out.println("An attack card of that color has already been played in this battle.");
-					return false;
+	protected boolean isColorInUse(Color c) {
+		// Make sure that no other attacker is using this color
+		for (Attacker a : attackers) {
+			ArrayList<Card> attackerCards = a.getAttackCards().getCards();
+						
+			if (attackerCards.size() > 0) {
+				AttackCard attackCard = (AttackCard) attackerCards.get(0);
+				if (attackCard.getColor() == c) {
+					return true;
 				}
 			}
-			// Place at top of list
-			attackers.add(0, attacker);
-		} else {
-			// Existing attacker
-			// Make sure this is the correct color for this player
-			AttackCard attackCard = (AttackCard) attacker.getAttackCards().getCards().get(0);
-			if (attackCard.getColor() != card.getColor()) {
-				System.out.println("Need to play attack card of the same color");
-				return false;
-			}
-			
-			attacker.addCard(card);
-						
-			// Move to top of list to maintain order
-			attackers.remove(attacker);
-			attackers.add(0, attacker);
 		}
-		return true;
-	}
-	
-
-	
-	// TODO: Implement
-	public boolean isBattleOver(int currentPlayerId) {
-		// If we've gone an entire round and the same player is winning
 		return false;
 	}
 	
 	/*
-	 * Broken. TODO: doesn't account for trumps yet
+	 * General function to add card to a battle
 	 */
-	public int calcCurrentWinner() {
-		/*
-		if (pShips.size() == 0) {
-			return mShipPlayerId;
-		}
-		else if (pShips.size() == 1){
-			return pShips.get(0).getPlayerId();
-		}
-		else {
-			// calculate score for each player
-			// if single highest score, declare winner
-			// else if tie, return -1;
-			// TODO: Needs to be rewritten for trumps
-			
-			ArrayList<Integer[]> score = new ArrayList<Integer[]>();
-			int hScore = 0;
-			// sum all the scores and record the highest score
-			for (Attacker a: pShips) {
-				if (a.getCardSet().hasTrump()) {
-					score.add(new Integer[]{a.getPlayerId(), Integer.MAX_VALUE, a.getOrder()});
-					hScore = Integer.MAX_VALUE;
-				} 
-				else {
-					score.add(new Integer[]{a.getPlayerId(), a.getCardSet().sumPShips(), a.getOrder()});
-					if (hScore < a.getCardSet().sumPShips()) {
-						hScore = a.getCardSet().sumPShips();
-					}
-				}
+	public boolean addAttackCard(Player player, AttackCard card, int moveNum) {
+		Attacker attacker = getAttackerByPlayerId(player.getId());
+		
+		if (attacker == null) {
+			if (isColorInUse(card.getColor())) {
+				System.out.println("An attack card of that color has already been played in this battle.");
+				return false;
 			}
 			
-			int winningPlayerIndex = 0;
+			// New attacker
+			attacker = new Attacker(player, card, moveNum);
 			
-			if (hScore == Integer.MAX_VALUE) {
-				// trump found, find the one with the highest order
-				int hOrder = 0;
-				
-				for (Integer[] i: score) {
-					if ((i[1] == Integer.MAX_VALUE) && (i[2] > hOrder)) {
-						hOrder = i[2];
-						winningPlayerIndex = score.indexOf(i);
-					}
+			attackers.add(attacker);
+		} else {
+			// Existing attacker
+			// Make sure this is the correct color for this player
+			ArrayList<Card> attackerCards = attacker.getAttackCards().getCards();
+			
+			if (attackerCards.size() > 0) {
+				AttackCard attackCard = (AttackCard) attackerCards.get(0);
+				if (attackCard.getColor() != card.getColor()) {
+					System.out.println("Need to play attack card of the same color");
+					return false;
 				}
-				return score.get(winningPlayerIndex)[0];
+			} else {
+				// If this is the first time the merchant owner plays, make sure they pick a unique color
+				if (isColorInUse(card.getColor())) {
+					System.out.println("An attack card of that color has already been played in this battle.");
+					return false;
+				}
+			}			
+			
+			attacker.addCard(card, moveNum);
+		}
+		
+		winningAttacker = calcCurrentWinner();
+		System.out.println("Added " + card + " to battle " + getId() + ".");
+		
+		if (winningAttacker == null) {
+			System.out.println("Its currently a tie");
+		} else {
+			System.out.println("Current winner is: " + winningAttacker.getPlayer().getName());
+		}
+		
+		return true;
+	}
+	
+	public Player getWinningPlayer() {
+		return winningAttacker.getPlayer();
+	}
+	
+	
+	// NOTE:  Check the maxLastMoveNum
+	public boolean isBattleOver(int currentPlayerId, int moveNum, int roundSize) {
+		// If we've gone an entire round and the same player is winning
+		int maxLastMoveNum = moveNum - roundSize;
+		
+		// If tie, not over
+		if (winningAttacker == null) {
+			return false;
+		}
+		
+		if (winningAttacker.getLastMoveNum() <= maxLastMoveNum) {
+			return true;
+		}
+		
+		return false;
+	}
+	
+	public boolean isBattleUsingTrumps() {
+		for (Attacker a : attackers) {
+			if (a.getAttackCards().hasTrump()) {
+				return true;
 			}
-			else {
-				// no trump but need to check for stalemates
-				// Count number of highest scores
-				// if 1, return winner
-				// if more than 1, return -1
-				
-				int numHScores = 0;
+		}
+		return false;
+	}
 
-				
-				// count number of highest scores
-				for (Integer[] i: score) {
-					if (i[1] == hScore) {
-						numHScores++;
-						winningPlayerIndex = score.indexOf(i);
+	public Attacker calcCurrentWinner() {
+		int numAttackers = attackers.size();
+		
+		if (numAttackers == 1) {
+			return attackers.get(0);
+		} else if (isBattleUsingTrumps()) {
+			Attacker currentWinningAttacker = null;
+			// Loop through all players and see who has both a trump and the lastMoveNum
+			for (Attacker a : attackers) {
+				if (a.getAttackCards().hasTrump()) {
+					if (currentWinningAttacker == null) {
+						currentWinningAttacker = a;
+					} else {
+						if (a.getLastMoveNum() > winningAttacker.getLastMoveNum()) {
+							currentWinningAttacker = a;
+						}
 					}
 				}
+			}
+			
+			// TODO Deal with Admiral
+			
+			return currentWinningAttacker;
+		} else {
+			Attacker currentWinningAttacker = null;
+			int winningScore = 0;
+			boolean haveTie = false;
+			
+			// Loop through all players and see who has the highest ship count
+			for (Attacker a : attackers) {
+				int total = a.getAttackCards().sumPShips();
 				
-				if (numHScores == 1) {
-					return score.get(winningPlayerIndex)[0];
-				}
-				else {
-					return -1;
+				if (total > winningScore) {
+					currentWinningAttacker = a;
+					winningScore = total;
+					haveTie = false;
+				} else if (total == winningScore) {
+					haveTie = true;
 				}
 			}
-		}*/
-		return 0;
+			
+			if (haveTie) {
+				return null;
+			} else {
+				return currentWinningAttacker;
+			}
+		}
 	}
 
 	
