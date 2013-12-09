@@ -73,6 +73,9 @@ public class CardSet {
 	}
 	
 	public boolean hasCard(Card c) {
+		if (c == null) {
+			return false;
+		}
 		for (Card l: cards) {
 			if (c instanceof MerchantShip) {
 				if ((l instanceof MerchantShip) && (l.getValue() == c.getValue())){

@@ -105,13 +105,19 @@ public class Battle {
 	public boolean addAttackCard(Player player, AttackCard card, int moveNum) {
 		Attacker attacker = getAttackerByPlayerId(player.getId());
 		
-		if (attacker == null) {
+		if (card.getColor() == Color.Admiral) {
+			if (player != ownerAttacker.getPlayer()) {
+				System.out.println("Can only play Admiral on ships that you started.");
+				return false;
+			}
+			ownerAttacker.addCard(card, moveNum);
+		} else if (attacker == null) {
+			// If this is a new attacker, first make sure this color isn't in use yet
 			if (isColorInUse(card.getColor())) {
 				System.out.println("An attack card of that color has already been played in this battle.");
 				return false;
 			}
 			
-			// New attacker
 			attacker = new Attacker(player, card, moveNum);
 			
 			attackers.add(attacker);
