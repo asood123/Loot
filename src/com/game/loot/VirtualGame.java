@@ -5,8 +5,8 @@ import java.util.List;
 
 public class VirtualGame {
 	public static void main(String[] args){
-		Player p1 = new TriggerHappyAI("Derek");
-		Player p2 = new TriggerHappyAI("Aseem");
+		Player p1 = new TriggerHappyAI("Aseem");
+		Player p2 = new TriggerHappyAI("Derek");
 		Player p3 = new TriggerHappyAI("Henry");
 		
 		List<Player> players = new ArrayList<Player>();
