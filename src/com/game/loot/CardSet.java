@@ -216,6 +216,10 @@ public class CardSet {
 		for (Card c: cards) {
 			s += c + " ";
 		}
+		
+		if (s.length() == 0) {
+			s = "--";
+		}
 		return s;
 	}
 	
