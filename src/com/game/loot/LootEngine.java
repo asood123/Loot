@@ -47,23 +47,25 @@ public class LootEngine {
 		// Loop until game end condition
 		while (!gamePlay.isEndOfGame()) {
 			for (Player player : players) {
-				System.out.println();
-				System.out.println("*** " + player.getName() + "'s Move");
-				printBoard();
-				System.out.println();
-				gamePlay.collectMerchantShips(player);
+				if (!gamePlay.isEndOfGame()) {
+					System.out.println();
+					System.out.println("*** " + player.getName() + "'s Move");
+					printBoard();
+					System.out.println();
+					gamePlay.collectMerchantShips(player);
 
-				boolean validMove = false;
-				while (!validMove) {
-					Move nextMove = player.getNextMove(gameState);
-					System.out.println("Proposed Move: " + nextMove.toString());
-					validMove = gamePlay.executeMove(player, nextMove);
-					if (!validMove) {
-						System.out.println("Invalid move, please try again");
-						return; // added only for debugging reasons, TODO: remove eventually
-					} else {
-						gameState.addMoveToHistory(nextMove);
-						player.addMove(nextMove); 
+					boolean validMove = false;
+					while (!validMove) {
+						Move nextMove = player.getNextMove(gameState);
+						System.out.println("Proposed Move: " + nextMove.toString());
+						validMove = gamePlay.executeMove(player, nextMove);
+						if (!validMove) {
+							System.out.println("Invalid move, please try again");
+							return; // added only for debugging reasons, TODO: remove eventually
+						} else {
+							gameState.addMoveToHistory(nextMove);
+							player.addMove(nextMove); 
+						}
 					}
 				}
 			}
