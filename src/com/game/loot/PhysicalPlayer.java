@@ -137,4 +137,25 @@ public class PhysicalPlayer extends Player {
 			handCount--;
 		}
 	}
+	
+	@Override
+	public int getFinalPoints(){
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));	
+		try {
+			while (true) {
+				System.out.println("Enter the sum of merchant ships left in " + getName() + "'s hand: ");			
+				int i = Integer.parseInt(br.readLine());
+			
+				if (i > 0 && i < 100){
+					return getPoints() - i;
+				}
+			}
+			
+		} catch(NumberFormatException nfe){
+          System.err.println("Invalid number!");
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return 0;
+	}
 }

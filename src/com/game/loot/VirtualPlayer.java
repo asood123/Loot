@@ -52,6 +52,11 @@ public class VirtualPlayer extends Player {
 		System.out.println("I'm " + getName() + " and I just removed card: " + card + "  and my hand is now:  " + hand);
 	}
 	
+	@Override
+	public int getFinalPoints(){
+		return getPoints() - hand.sumMShips();
+	}
+	
 	// helper functions
 	
 	public void runPreMoveHelpers(GameState gm){
