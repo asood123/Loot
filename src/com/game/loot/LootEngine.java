@@ -18,7 +18,7 @@ public class LootEngine {
 		System.out.println("Game Ended!");
 		
 		for (Player player : players){
-			System.out.println(player.getName() + ":" + player.getPoints());
+			System.out.println(player.getName() + ":" + player.getFinalPoints());
 		}
 	}
 	

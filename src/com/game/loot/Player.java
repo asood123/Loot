@@ -39,6 +39,8 @@ public abstract class Player {
 		return points;
 	}
 	
+	public abstract int getFinalPoints();
+	
 	public ArrayList<Move> getMoves(){
 		return moves;
 	}

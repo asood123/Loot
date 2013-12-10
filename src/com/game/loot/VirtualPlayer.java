@@ -31,6 +31,10 @@ public class VirtualPlayer extends Player {
 	public int getId(){
 		return super.getId();
 	}
+	
+	public CardSet getUnknownCards(){
+		return unknownCards;
+	}
 
 	@Override
 	public Move getNextMove(GameState gm) {
@@ -50,6 +54,11 @@ public class VirtualPlayer extends Player {
 	public void removeCard(Card card) {
 		hand.removeCard(card);
 		System.out.println("I'm " + getName() + " and I just removed card: " + card + "  and my hand is now:  " + hand);
+	}
+	
+	@Override
+	public int getFinalPoints(){
+		return getPoints() - hand.sumMShips();
 	}
 	
 	// helper functions
@@ -86,7 +95,15 @@ public class VirtualPlayer extends Player {
 	}
 	
 	public void newCardSeen(Card c) {
+		
+		/*System.out.println(getName() + ": removing unknowncards: " + c.toString());
+		System.out.println("Before: " + unknownCards.getCount());
+		if (unknownCards.hasCard(c)) {
+			System.out.println("Card found in unknownCards");
+		}*/
 		unknownCards.removeCard(c);
+		//System.out.println("After: " + unknownCards.getCount());
+		
 	}
 	
 }

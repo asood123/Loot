@@ -55,12 +55,42 @@ public class CardSet {
 	public void addCard(Card c) {
 		cards.add(c);
 	}
+	
 	public boolean removeCard(Card c) {
-		if (hasCard(c)){
-			cards.remove(c);
+		Card r = null;
+		if (c == null) {
+			return false;
+		}
+		for (Card l: cards) {
+			if (c instanceof MerchantShip) {
+				if ((l instanceof MerchantShip) && (l.getValue() == c.getValue())){
+					r = l;
+					break;
+				}
+			}
+			else if (c instanceof PirateShip) {
+				if ((l instanceof PirateShip) && (l.getValue() == c.getValue())){
+					if (((PirateShip)c).getColor() == ((PirateShip)l).getColor()){
+						r = l;
+						break;
+					}
+				}
+			}
+			else {
+				if (l instanceof Trump){
+					if (((Trump)c).getColor() == ((Trump)l).getColor()){
+						r = l;
+						break;
+					}
+				}
+			}
+		}
+		if (r != null) {
+			cards.remove(r);
 			return true;
 		}
-		else return false;
+		return false;
+
 	}
 	
 	public Card findCardFromString(String searchString) {
@@ -223,6 +253,10 @@ public class CardSet {
 		return s;
 	}
 	
+	/*
+	 * Returns highest merchant ship
+	 */
+	
 	public MerchantShip hMShip(){
 		MerchantShip m = null;
 		for (Card c: cards){
@@ -232,6 +266,26 @@ public class CardSet {
 				}
 				else {
 					if (m.getValue() < c.getValue()){
+						m = (MerchantShip)c;
+					}
+				}
+			}
+		}
+		return m;
+	}
+	
+	/*
+	 * Returns lowest merchant ship
+	 */
+	public MerchantShip lMShip(){
+		MerchantShip m = null;
+		for (Card c: cards){
+			if (c instanceof MerchantShip){
+				if (m == null){
+					m = (MerchantShip)c;
+				}
+				else {
+					if (m.getValue() > c.getValue()){
 						m = (MerchantShip)c;
 					}
 				}
