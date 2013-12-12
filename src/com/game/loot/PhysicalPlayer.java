@@ -141,12 +141,14 @@ public class PhysicalPlayer extends Player {
 	@Override
 	public int getFinalPoints(){
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));	
+		boolean done = false;
 		try {
-			while (true) {
+			while (!done) {
 				System.out.println("Enter the sum of merchant ships left in " + getName() + "'s hand: ");			
 				int i = Integer.parseInt(br.readLine());
 			
 				if (i > 0 && i < 100){
+					done = true;
 					return getPoints() - i;
 				}
 			}
