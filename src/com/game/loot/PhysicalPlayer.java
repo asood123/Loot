@@ -3,18 +3,31 @@ package com.game.loot;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.List;
 
 public class PhysicalPlayer extends Player {
 
 	private int handCount;
 	private CardSet hand;
 	private boolean virtualGamePlay;
+	private int deckSize;
 	
 	public PhysicalPlayer(String name, boolean virtualGamePlay) {
 		super(name);
 		this.handCount = 0;
 		this.virtualGamePlay = virtualGamePlay;
 		this.hand = new CardSet();
+		
+		if (virtualGamePlay) {
+			deckSize = 100;
+		}
+	}
+	
+	public int getDeckSize(){
+		if (virtualGamePlay) {
+			return deckSize;
+		}
+		return -1;
 	}
 
 	@Override
@@ -31,8 +44,9 @@ public class PhysicalPlayer extends Player {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		
 		if (virtualGamePlay) {
-			System.out.println(getName() + "'s Hand:");
-			System.out.println(hand);
+			System.out.println(getName() + "'s Hand: " + hand);
+			updateDeckSize(gameState.getPlayers());
+			System.out.println("Undrawn cards: " + getDeckSize());
 		}
 		
 		System.out.println(ACTION.DRAW.ordinal() + ": Draw card");
@@ -159,5 +173,19 @@ public class PhysicalPlayer extends Player {
 			e.printStackTrace();
 		}
 		return 0;
+	}
+	
+	public void updateDeckSize(List<Player> players){
+		if (deckSize == 100) {
+			// initialize it
+			deckSize = 78-(players.size())*6;
+		}
+		for (Player p: players) {
+			if (p.getLastMove() != null){
+				if (p.getLastMove().getAction() == ACTION.DRAW) {
+					deckSize--;
+				}
+			}
+		}
 	}
 }

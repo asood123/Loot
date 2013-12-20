@@ -241,16 +241,29 @@ public class CardSet {
 	}
 	
 	public String toString(){
+		String mShip = new String();
+		String pShip = new String();
+		String trump = new String();
 		String s = new String();
 			
 		for (Card c: cards) {
-			s += c + " ";
+			if (c instanceof MerchantShip) {
+				mShip += c + " ";
+			}
+			else if (c instanceof PirateShip) {
+				pShip += c + " ";
+			}
+			else {
+				trump += c + " ";
+			}
 		}
 		
-		if (s.length() == 0) {
-			s = "--";
+		if (mShip.length() + pShip.length() + trump.length() > 0) {
+			return mShip + pShip + trump;
 		}
-		return s;
+		else {
+			return "--";
+		}
 	}
 	
 	/*

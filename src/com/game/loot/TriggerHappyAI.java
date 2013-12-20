@@ -20,6 +20,7 @@ public class TriggerHappyAI extends VirtualPlayer {
 	public Move getNextMove(GameState gm) {
 		super.runPreMoveHelpers(gm);
 		
+		
 		// if there is a battle
 		//	and there is a valid way to attack it
 		// 		attack it

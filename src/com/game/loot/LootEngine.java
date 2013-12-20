@@ -33,6 +33,9 @@ public class LootEngine {
 				}
 			}
 		}
+		for (Player player : players) {
+			System.out.println(player.getName() + "'s points: " + player.getPoints() + " | Cards in hand: " + player.getHandCount());
+		}
 	}
 	
 	void play() {
