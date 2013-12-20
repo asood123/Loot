@@ -8,7 +8,7 @@ import java.util.Set;
 public abstract class Player {
 	private int id;
 	private String name;
-	private Set<MerchantShip> merchantShipsWon;
+	private CardSet merchantShipsWon;
 	private ArrayList<Move> moves;
 	
 	public static int playerCount = 1;
@@ -16,7 +16,7 @@ public abstract class Player {
 	public Player(String name) {
 		this.id = playerCount++;
 		this.name = name;
-		merchantShipsWon = new HashSet<MerchantShip>();
+		merchantShipsWon = new CardSet();
 		moves = new ArrayList<Move>();
 	}
 	
@@ -32,7 +32,7 @@ public abstract class Player {
 	public int getPoints() {
 		int points = 0;
 		
-		for (MerchantShip ship : merchantShipsWon) {
+		for (Card ship : merchantShipsWon.getCards()) {
 			points += ship.getValue();
 		}
 		
@@ -59,7 +59,7 @@ public abstract class Player {
 	}
 
 	public void addMerchantShipWon(MerchantShip card) {
-		merchantShipsWon.add(card);
+		merchantShipsWon.addCard(card);
 	}
 	
 	// abstract

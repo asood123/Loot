@@ -244,7 +244,6 @@ public class CardSet {
 		String mShip = new String();
 		String pShip = new String();
 		String trump = new String();
-		String s = new String();
 			
 		for (Card c: cards) {
 			if (c instanceof MerchantShip) {

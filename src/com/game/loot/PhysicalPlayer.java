@@ -154,25 +154,37 @@ public class PhysicalPlayer extends Player {
 	
 	@Override
 	public int getFinalPoints(){
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));	
-		boolean done = false;
-		try {
-			while (!done) {
-				System.out.println("Enter the sum of merchant ships left in " + getName() + "'s hand: ");			
-				int i = Integer.parseInt(br.readLine());
-			
-				if (i > 0 && i < 100){
-					done = true;
-					return getPoints() - i;
-				}
-			}
-			
-		} catch(NumberFormatException nfe){
-          System.err.println("Invalid number!");
-		} catch (IOException e) {
-			e.printStackTrace();
+		
+		if (virtualGamePlay) {
+			return getPoints() - hand.sumMShips();
 		}
-		return 0;
+		else {
+			BufferedReader br = new BufferedReader(new InputStreamReader(System.in));	
+			boolean done = false;
+			try {
+				while (!done) {
+					System.out.println("Enter the sum of merchant ships left in " + getName() + "'s hand: ");			
+					int i = Integer.parseInt(br.readLine());
+				
+					if (i >= 0 && i < 100){
+						done = true;
+						System.out.println("Reaching here.");
+						return getPoints() - i;
+					}
+					else {
+						System.out.println("Invalid entry. Please try again.");
+					}
+				}
+				
+			} catch(NumberFormatException nfe){
+	          System.err.println("Invalid number!");
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			return 0;
+		}
+		
+		
 	}
 	
 	public void updateDeckSize(List<Player> players){
