@@ -242,7 +242,10 @@ public class CardSet {
 	
 	public String toString(){
 		String mShip = new String();
-		String pShip = new String();
+		String pShipBlue = new String();
+		String pShipGreen = new String();
+		String pShipPurple = new String();
+		String pShipYellow = new String();
 		String trump = new String();
 			
 		for (Card c: cards) {
@@ -250,15 +253,30 @@ public class CardSet {
 				mShip += c + " ";
 			}
 			else if (c instanceof PirateShip) {
-				pShip += c + " ";
+				Color color = ((PirateShip)c).getColor();
+				if (color == Color.Blue) {
+					pShipBlue += c + " ";
+				}
+				else if (color == Color.Green) {
+					pShipGreen += c + " ";
+				}
+				else if (color == Color.Purple) {
+					pShipPurple += c + " ";
+				}
+				else if (color == Color.Yellow) {
+					pShipYellow += c + " ";
+				}
 			}
 			else {
 				trump += c + " ";
 			}
 		}
 		
-		if (mShip.length() + pShip.length() + trump.length() > 0) {
-			return mShip + pShip + trump;
+		if (mShip.length() + pShipBlue.length() + pShipGreen.length() 
+				+ pShipPurple.length() + pShipYellow.length() 
+				+ trump.length() > 0) {
+			return mShip + pShipBlue + pShipGreen + pShipPurple + pShipYellow
+					+ trump;
 		}
 		else {
 			return "--";
