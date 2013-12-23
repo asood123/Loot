@@ -52,6 +52,7 @@ public abstract class GamePlay {
 			}
 			
 			player.removeCard(attackCard);
+			break;
 		case DISCARD:
 			Card discardCard = move.getCard();
 			player.removeCard(discardCard);
