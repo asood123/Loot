@@ -21,6 +21,10 @@ public class PirateShip extends AttackCard {
 		return color.toString() + value + Card.ANSI_RESET;
 	}
 	
+	public String toStringWithoutANSI() {
+		return color.toStringWithoutANSI() + value;
+	}
+	
 	public boolean equals(Card c) {
 		return ((c instanceof PirateShip) && 
 				(value == ((PirateShip)c).getValue()) &&

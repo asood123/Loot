@@ -95,7 +95,7 @@ public class CardSet {
 	
 	public Card findCardFromString(String searchString) {
 		for (Card card : cards) {
-			if (card.toString().equals(searchString)) {
+			if (card.toStringWithoutANSI().equalsIgnoreCase(searchString)) {
 				return card;
 			}
 		}

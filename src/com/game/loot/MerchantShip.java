@@ -21,6 +21,10 @@ public class MerchantShip extends Card {
 		return Card.ANSI_BLACK + "M" + value + Card.ANSI_RESET;
 	}
 	
+	public String toStringWithoutANSI(){
+		return "M" + value;
+	}
+	
 	public boolean equals(Card c){
 		return ((c instanceof MerchantShip) && (value == ((MerchantShip)c).getValue()));
 	}

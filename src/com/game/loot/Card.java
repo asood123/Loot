@@ -4,6 +4,7 @@ public abstract class Card {
 	
 	public abstract int getValue();
 	public abstract String toString();
+	public abstract String toStringWithoutANSI();
 	public abstract boolean equals(Card c);
 	public static final String ANSI_RESET = "\u001B[0m";
 	public static final String ANSI_BLACK = "\u001B[30m";
@@ -63,6 +64,32 @@ enum Color {
 			break;
 		case 3: 
 			value = Card.ANSI_YELLOW + "Y";
+			break;
+		case 4: 
+			value = "A";
+			break;
+		default: 
+			value = "Error";
+			break;
+		}
+		return value;
+	}
+	
+	public String toStringWithoutANSI(){
+		
+		String value = "";
+		switch (ordinal()) {
+		case 0: 
+			value = "B";
+			break;
+		case 1: 
+			value = "G";
+			break;
+		case 2: 
+			value = "P";
+			break;
+		case 3: 
+			value = "Y";
 			break;
 		case 4: 
 			value = "A";
