@@ -7,17 +7,18 @@ import java.util.Random;
 
 
 /*
- * Allows you to run multiple games (modify totalGames var)
+ * Allows you to run multiple games (modify TOTALGAMES var)
  * And reports count of wins and total points won
  */
 
 public class VirtualGamePro {
 	
+	final int TOTALGAMES = 1000;
+	
 	HashMap<String, Float> hTally;
 	HashMap<String, Integer> hScoreTally;
 	List<Player> players = new ArrayList<Player>();
-	final int totalGames = 1000;
-	final int maxPlayers = 5;
+	int totalGames = TOTALGAMES;
 	int gamesPlayed = 0;
 	Random rand;
 	
