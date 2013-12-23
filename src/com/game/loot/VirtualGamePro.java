@@ -34,12 +34,12 @@ public class VirtualGamePro {
 		ArrayList<Player> tPlayers = new ArrayList<Player>();
 		Player temp;
 		players = new ArrayList<Player>();
-		Player p1 = new PlaysMerchantShipsFirstAI("Michael");
+		Player p1 = new RandomAI("Michael");
 		//Player p2 = new PhysicalPlayer("Aseem", true);
-		Player p2 = new ArtemisAI("Artemis");
+		Player p2 = new TriggerHappyAI("Artemis");
 		Player p3 = new TriggerHappyAI("Terry");
 		//Player p3 = new PhysicalPlayer("Aseem", true);
-		Player p4 = new EnderAI("Ender");
+		Player p4 = new RandomAI("Ender");
 		
 		tPlayers.add(p1);
 		tPlayers.add(p2);
