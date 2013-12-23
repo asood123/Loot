@@ -6,7 +6,8 @@ public class LootEngine {
 	List<Player> players;
 	GamePlay gamePlay;
 	GameState gameState;
-	
+	final String ANSI_CLS = "\u001b[2J";
+    final String ANSI_HOME = "\u001b[H";	
 	
 	public LootEngine(List<Player> players, GamePlay gamePlay, GameState gameState) {
 		this.players = players;
@@ -51,7 +52,11 @@ public class LootEngine {
 		while (!gamePlay.isEndOfGame()) {
 			for (Player player : players) {
 				if (!gamePlay.isEndOfGame()) {
-					System.out.println();
+					// clear screen
+					if (player instanceof PhysicalPlayer) {
+						System.out.print(ANSI_CLS + ANSI_HOME);
+						System.out.flush();
+					}
 					System.out.println("*** " + player.getName() + "'s Move");
 					printBoard();
 					System.out.println();

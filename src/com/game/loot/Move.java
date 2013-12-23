@@ -8,24 +8,25 @@ enum ACTION {
 	
 	@Override
 	public String toString(){
-		String value = "";
+		String value = Card.ANSI_CYAN;
 		switch (ordinal()) {
 		case 0: 
-			value = "Draw";
+			value += "Draw";
 			break;
 		case 1: 
-			value = "Play";
+			value += "Play";
 			break;
 		case 2: 
-			value = "Attack";
+			value += "Attack";
 			break;
 		case 3: 
-			value = "Discard";
+			value += "Discard";
 			break;
 		default: 
-			value = "Error";
+			value += "Error";
 			break;
 		}
+		value += Card.ANSI_RESET;
 		return value;
 	}
 };

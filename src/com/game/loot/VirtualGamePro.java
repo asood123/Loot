@@ -7,19 +7,19 @@ import java.util.Random;
 
 
 /*
- * Allows you to run multiple games (modify TOTALGAMES var)
+ * Allows you to run multiple games (through command line)
  * And reports count of wins and total points won
  */
 
 public class VirtualGamePro {
 	
-	final int TOTALGAMES = 1000;
+	//final int TOTALGAMES = 1000;
 	
 	HashMap<String, Float> hTally;
 	HashMap<String, Integer> hScoreTally;
 	List<Player> players = new ArrayList<Player>();
-	int totalGames = TOTALGAMES;
-	int gamesPlayed = 0;
+	int totalGames;
+	int gamesPlayed;
 	Random rand;
 	
 	VirtualGamePro(){		
@@ -27,6 +27,8 @@ public class VirtualGamePro {
 		rand = new Random();
 		hTally = new HashMap<String, Float>();
 		hScoreTally = new HashMap<String, Integer>();
+		totalGames = 1;
+		gamesPlayed = 0;
 	}
 	
 	public void initializeNewGame(){
@@ -34,12 +36,12 @@ public class VirtualGamePro {
 		ArrayList<Player> tPlayers = new ArrayList<Player>();
 		Player temp;
 		players = new ArrayList<Player>();
-		Player p1 = new RandomAI("Michael");
+		Player p1 = new PlaysMerchantShipsFirstAI("Michael");
 		//Player p2 = new PhysicalPlayer("Aseem", true);
-		Player p2 = new TriggerHappyAI("Artemis");
+		Player p2 = new ArtemisAI("Artemis");
 		Player p3 = new TriggerHappyAI("Terry");
 		//Player p3 = new PhysicalPlayer("Aseem", true);
-		Player p4 = new RandomAI("Ender");
+		Player p4 = new EnderAI("Ender");
 		
 		tPlayers.add(p1);
 		tPlayers.add(p2);
@@ -55,7 +57,15 @@ public class VirtualGamePro {
 
 	public static void main(String[] args){
 		
+		int games = 0;
+		if (args.length > 0) {
+			games = Integer.parseInt(args[0]);
+		}
+		
 		VirtualGamePro v = new VirtualGamePro();
+		if (games > 0) {
+			v.totalGames = games;
+		}
 		for (int i = 0; i< v.totalGames; i++) {
 			v.initializeNewGame();
 			GameState gameState = new GameState(v.players);
@@ -106,6 +116,7 @@ public class VirtualGamePro {
 	}
 	
 	public void printHTally() {
+		System.out.println("");
 		System.out.println("Games Played: " + totalGames);
 		float temp = 0;
 		

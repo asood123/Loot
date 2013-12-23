@@ -18,7 +18,7 @@ public class PirateShip extends AttackCard {
 	}
 
 	public String toString() {
-		return color.toString() + value;
+		return color.toString() + value + Card.ANSI_RESET;
 	}
 	
 	public boolean equals(Card c) {

@@ -18,7 +18,7 @@ public class MerchantShip extends Card {
 	}
 	
 	public String toString(){
-		return "M" + value;
+		return Card.ANSI_BLACK + "M" + value + Card.ANSI_RESET;
 	}
 	
 	public boolean equals(Card c){
