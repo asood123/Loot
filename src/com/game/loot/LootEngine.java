@@ -1,5 +1,8 @@
 package com.game.loot;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 public class LootEngine {
@@ -17,7 +20,22 @@ public class LootEngine {
 	public void endGame() {
 		System.out.println("Game Ended!");
 		
-		for (Player player : players){
+		ArrayList<Player> sortedPlayerList =  new ArrayList<Player>(this.players);
+		Collections.sort(sortedPlayerList, new Comparator<Player>() {
+	        @Override
+	        public int compare(Player p1, Player p2)
+	        {
+	            return  p1.getFinalPoints() - p2.getFinalPoints();
+	        }
+	    });
+		Collections.reverse(sortedPlayerList);
+		
+		int winningScore = sortedPlayerList.get(0).getFinalPoints();
+		for (Player player : sortedPlayerList){
+			if (player.getFinalPoints() == winningScore) {
+				player.addWin();
+				player.addPointsAcrossRounds(player.getFinalPoints());
+			}
 			System.out.println(player.getName() + ":" + player.getFinalPoints());
 		}
 	}

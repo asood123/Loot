@@ -10,6 +10,11 @@ public class VirtualPlayer extends Player {
 	
 	public VirtualPlayer(String name) {
 		super(name);
+		setupForNewGame();
+	}
+	
+	public void setupForNewGame() {
+		super.setupForNewGame();
 		hand = new CardSet();
 		unknownCards = CardSet.addFullDeck();
 		deckSize = 100; 

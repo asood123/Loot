@@ -1,8 +1,7 @@
 package com.game.loot;
 
 import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Set;
+
 
 
 public abstract class Player {
@@ -10,16 +9,22 @@ public abstract class Player {
 	private String name;
 	private CardSet merchantShipsWon;
 	private ArrayList<Move> moves;
+	private int numWins;
+	private int pointsAcrossRounds;
 	
 	public static int playerCount = 1;
 
 	public Player(String name) {
 		this.id = playerCount++;
 		this.name = name;
+		setupForNewGame();
+	}
+	
+	public void setupForNewGame() {
 		merchantShipsWon = new CardSet();
 		moves = new ArrayList<Move>();
 	}
-	
+		
 	// Getters
 	public String getName() {
 		return name;
@@ -79,4 +84,20 @@ public abstract class Player {
 	}
 
 	public abstract Move getNextMove(GameState gm);
+
+	public int getNumWins() {
+		return numWins;
+	}
+
+	public void addWin() {
+		this.numWins++;
+	}
+
+	public int getPointsAcrossRounds() {
+		return pointsAcrossRounds;
+	}
+
+	public void addPointsAcrossRounds(int pointsAcrossRounds) {
+		this.pointsAcrossRounds += pointsAcrossRounds;
+	}
 }
