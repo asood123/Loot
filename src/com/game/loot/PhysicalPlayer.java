@@ -42,6 +42,7 @@ public class PhysicalPlayer extends Player {
 	@Override
 	public Move getNextMove(GameState gameState) {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		boolean done = false;
 		
 		if (virtualGamePlay) {
 			System.out.println(getName() + "'s Hand: " + hand);
@@ -49,6 +50,60 @@ public class PhysicalPlayer extends Player {
 			System.out.println("Undrawn cards: " + getDeckSize());
 		}
 		
+		
+		System.out.println("What would you like to do? Ex: M5, P2, TA, Enter (to draw), etc.");
+		
+		while (!done){
+			try {
+				String input = br.readLine();
+				
+				if (input.equalsIgnoreCase("d") || input.equalsIgnoreCase("draw")
+						|| input.equalsIgnoreCase("")) {
+					return new Move(ACTION.DRAW, null, null);
+				}
+				else if (hand.findCardFromString(input) != null){
+					
+	            	Card playCard = hand.findCardFromString(input);
+	            	if (playCard != null && playCard instanceof MerchantShip) {
+	            		return new Move(ACTION.PLAY_MERCHANT_SHIP, playCard, null);
+	            	}
+	            	
+	            	if (deckSize == 0) {
+	            		System.out.println("Do you want to dicard " + playCard + "? Y/N");
+	            		input = br.readLine();
+	            		if (input.equalsIgnoreCase("yes") || input.equalsIgnoreCase("y")) {
+	            			return new Move(ACTION.DISCARD, playCard, null);
+	            		}
+	            	}
+
+            		Battle battle = null;
+        			while (battle == null) {
+        				System.out.println("Which battle do you want to attack?");
+        				int battleId = Integer.parseInt(br.readLine());
+        				battle = gameState.findBattleById(battleId);
+        				if (battle == null) {
+        					System.out.println("That battle wasn't found, please enter another.");
+        				}
+        			}                  	
+                	
+        			return new Move(ACTION.PLAY_ATTACK, playCard, battle);
+
+					
+				}
+				else {
+					throw new Exception();
+				}
+				
+			} catch (IOException e) {
+				e.printStackTrace();
+			} catch (Exception e) {
+				System.err.println("Input unclear. Try again");
+			}
+		}
+		
+		
+		
+		/*
 		System.out.println(ACTION.DRAW.ordinal() + ": Draw card");
 		System.out.println(ACTION.PLAY_MERCHANT_SHIP.ordinal() + ": Play merchant ship");
 		System.out.println(ACTION.PLAY_ATTACK.ordinal() + ": Play attack card");
@@ -130,7 +185,9 @@ public class PhysicalPlayer extends Player {
         } catch (IOException e) {
 			e.printStackTrace();
 		}
+		*/
 		return null;
+		
 	}
 
 	@Override

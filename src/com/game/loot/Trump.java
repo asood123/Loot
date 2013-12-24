@@ -18,7 +18,7 @@ public class Trump extends AttackCard {
 	}
 	
 	public String toStringWithoutANSI(){
-		return "T" + color.toString();
+		return "T" + color.toStringWithoutANSI();
 	}
 	
 	public boolean equals(Card c){
