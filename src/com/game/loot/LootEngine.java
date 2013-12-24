@@ -25,17 +25,19 @@ public class LootEngine {
 	
 	public void printBoard() {
 		for (Player player : players) {
-			List<Battle> battles = gameState.findBattlesOwnedByPlayer(player);
-			
-			if (battles.size() > 0) {
-				System.out.println("Battles in front of " + player.getName());
-				for (Battle battle : battles) {
-					System.out.println(battle);
-				}
+			System.out.println(player.getName() + "'s points: \t" + player.getPoints() + " | Cards in hand: " + player.getHandCount());
+		}
+		System.out.println("--- Last Moves: ");
+		
+		//System.out.println("Last moves:");
+		for (Player player : players) {
+			if (player.getLastMove() != null) {
+				System.out.println(player.getName() + ": " + player.getLastMove().toString());
 			}
 		}
-		for (Player player : players) {
-			System.out.println(player.getName() + "'s points: " + player.getPoints() + " | Cards in hand: " + player.getHandCount());
+		System.out.println("--- Battles: ");
+		for (Battle battle: gameState.getBattleList()) {
+			System.out.println(battle);
 		}
 	}
 	
