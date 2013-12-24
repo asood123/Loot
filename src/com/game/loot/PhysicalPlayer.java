@@ -59,7 +59,12 @@ public class PhysicalPlayer extends Player {
 				
 				if (input.equalsIgnoreCase("d") || input.equalsIgnoreCase("draw")
 						|| input.equalsIgnoreCase("")) {
-					return new Move(ACTION.DRAW, null, null);
+					if (deckSize > 0) {
+						return new Move(ACTION.DRAW, null, null);
+					}
+					else {
+						System.out.println("No cards left to draw. Pick another move.");
+					}
 				}
 				else if (hand.findCardFromString(input) != null){
 					
@@ -69,7 +74,7 @@ public class PhysicalPlayer extends Player {
 	            	}
 	            	
 	            	if (deckSize == 0) {
-	            		System.out.println("Do you want to dicard " + playCard + "? Y/N");
+	            		System.out.println("Do you want to discard " + playCard + "? Y/N");
 	            		input = br.readLine();
 	            		if (input.equalsIgnoreCase("yes") || input.equalsIgnoreCase("y")) {
 	            			return new Move(ACTION.DISCARD, playCard, null);
