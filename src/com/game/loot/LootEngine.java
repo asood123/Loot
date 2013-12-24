@@ -59,6 +59,9 @@ public class LootEngine {
 						System.out.print(ANSI_CLS + ANSI_HOME);
 						System.out.flush();
 					}
+					else {
+						System.out.println("");
+					}
 					System.out.println("*** " + player.getName() + "'s Move");
 					printBoard();
 					System.out.println();
