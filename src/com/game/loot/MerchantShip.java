@@ -18,7 +18,7 @@ public class MerchantShip extends Card {
 	}
 	
 	public String toString(){
-		return Card.ANSI_BLACK + "M" + value + Card.ANSI_RESET;
+		return "M" + value;
 	}
 	
 	public String toStringWithoutANSI(){

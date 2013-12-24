@@ -15,12 +15,6 @@ public abstract class Card {
 	public static final String ANSI_PURPLE = "\u001B[35m";
 	public static final String ANSI_CYAN = "\u001B[36m";
 	public static final String ANSI_WHITE = "\u001B[37m";
-	
-	// testing/debugging
-	public void print(){
-		System.out.println(toString());
-	}
-	
 }
 
 enum Color {
@@ -50,32 +44,6 @@ enum Color {
 	
 	@Override
 	public String toString(){
-		
-		String value = "";
-		switch (ordinal()) {
-		case 0: 
-			value = Card.ANSI_BLUE + "B";
-			break;
-		case 1: 
-			value = Card.ANSI_GREEN + "G";
-			break;
-		case 2: 
-			value = Card.ANSI_PURPLE + "P";
-			break;
-		case 3: 
-			value = Card.ANSI_YELLOW + "Y";
-			break;
-		case 4: 
-			value = "A";
-			break;
-		default: 
-			value = "Error";
-			break;
-		}
-		return value;
-	}
-	
-	public String toStringWithoutANSI(){
 		
 		String value = "";
 		switch (ordinal()) {

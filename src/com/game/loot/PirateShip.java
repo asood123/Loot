@@ -18,11 +18,11 @@ public class PirateShip extends AttackCard {
 	}
 
 	public String toString() {
-		return color.toString() + value + Card.ANSI_RESET;
+		return this.getColor().getANSIColorCode() + color.toString() + value + Card.ANSI_RESET;
 	}
 	
 	public String toStringWithoutANSI() {
-		return color.toStringWithoutANSI() + value;
+		return color.toString() + value;
 	}
 	
 	public boolean equals(Card c) {
