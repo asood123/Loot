@@ -72,7 +72,8 @@ public class VirtualPlayer extends Player {
 	public void updateUnknownCards(List<Player> players){
 		for (Player p: players) {
 			if (p.getLastMove() != null){
-				if (p.getLastMove().getAction() != ACTION.DRAW) {
+				if ((p.getLastMove().getAction() != ACTION.DRAW)
+						&& (p.getId() != getId())){
 					newCardSeen(p.getLastMove().getCard());
 				}				
 			}

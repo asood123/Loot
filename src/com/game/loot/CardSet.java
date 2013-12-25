@@ -212,6 +212,16 @@ public class CardSet {
 		return false;
 	}
 	
+	public boolean hasPShip(Color color) {
+		for (Card c: cards) {
+			if ((c instanceof PirateShip) &&
+					((PirateShip)c).getColor() == color) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
 	public int numMShips(){
 		int count = 0;
 		for(Card c: cards) {
