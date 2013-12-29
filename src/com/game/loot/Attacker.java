@@ -18,6 +18,15 @@ public class Attacker {
 		this.lastMoveNum = moveNum;
 	}
 	
+	public Attacker(Attacker a) {
+		attackCards = new CardSet();
+		for (Card c: a.getAttackCards().getCards()) {
+			attackCards.addCard(c);
+		}
+		this.player = a.getPlayer();
+		this.lastMoveNum = a.getLastMoveNum();
+	}
+	
 	// getters
 	public CardSet getAttackCards() {
 		return attackCards;

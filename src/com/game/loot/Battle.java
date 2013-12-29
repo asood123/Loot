@@ -3,16 +3,15 @@ package com.game.loot;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Battle {
+public class Battle{
+
 	private MerchantShip merchantShip;
+	private List<Attacker> attackers;
+	private Attacker winningAttacker;
 	private Attacker ownerAttacker;
-	
 	private int id;
 	private static int battleCount = 1;
-	
-	private List<Attacker> attackers;
-	
-	private Attacker winningAttacker;
+
 	
 	public Battle(MerchantShip merchantShip, Player ownerPlayer, int moveNum) {
 		this.merchantShip = merchantShip;
@@ -23,6 +22,21 @@ public class Battle {
 
 		winningAttacker = ownerAttacker;
 		
+		id = battleCount++;
+	}
+	
+	public Battle(Battle b) {
+		this.merchantShip = b.getMerchantShip();
+		ownerAttacker = new Attacker(b.getAttackerByPlayerId(b.getOwnerPlayerId()));
+		attackers = new ArrayList<Attacker>();
+		attackers.add(ownerAttacker);
+		for (Attacker a: b.getAttackers()) {
+			if (a != b.getAttackerByPlayerId(b.getOwnerPlayerId())){
+				attackers.add(new Attacker(a));
+			}
+		}
+		winningAttacker = ownerAttacker;
+		winningAttacker = calcCurrentWinner();
 		id = battleCount++;
 	}
 	
@@ -156,7 +170,10 @@ public class Battle {
 	}
 	
 	public Player getWinningPlayer() {
-		return winningAttacker.getPlayer();
+		if (getWinningAttacker() != null) {
+			return winningAttacker.getPlayer();
+		}
+		return null;
 	}
 	
 	
@@ -191,7 +208,8 @@ public class Battle {
 		
 		if (numAttackers == 1) {
 			return attackers.get(0);
-		} else if (isBattleUsingTrumps()) {
+		} 
+		else if (isBattleUsingTrumps()) {
 			Attacker currentWinningAttacker = null;
 			// Loop through all players and see who has both a trump and the lastMoveNum
 			for (Attacker a : attackers) {
@@ -206,10 +224,9 @@ public class Battle {
 				}
 			}
 			
-			// TODO Deal with Admiral
-			
 			return currentWinningAttacker;
-		} else {
+		} 
+		else {
 			Attacker currentWinningAttacker = null;
 			int winningScore = 0;
 			boolean haveTie = false;
@@ -229,7 +246,8 @@ public class Battle {
 			
 			if (haveTie) {
 				return null;
-			} else {
+			} 
+			else {
 				return currentWinningAttacker;
 			}
 		}
@@ -249,4 +267,5 @@ public class Battle {
 		
 		return toPrint;
 	}
+
 }

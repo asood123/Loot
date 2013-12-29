@@ -20,6 +20,10 @@ public abstract class Player {
 		moves = new ArrayList<Move>();
 	}
 	
+	public String toString(){
+		return name;
+	}
+	
 	// Getters
 	public String getName() {
 		return name;

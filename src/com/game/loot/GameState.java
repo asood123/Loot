@@ -100,41 +100,4 @@ public class GameState {
 		}
 		return battleList;
 	}
-/*
-	@Override
-	public List<Battle> findBattlesStartedbyPlayer(Player player) {
-		int pId = player.getId();
-		List<Battle> battleList = new ArrayList<Battle>();
-		
-		for (Battle battle : battles) {
-			if (battle.getOwnerPlayerId() == pId) {
-				battleList.add(battle);
-			}
-		}
-		return battleList;
-	}
-	*/
-	// test/debug functions
-	
-	public boolean verifyGameState(){
-		// check that sum of player's hands + mShips collected + discard pile + decksize + knowncards = 78
-		int handCount = 0;
-		int points = 0;
-		for (Player player : players) {
-			handCount += player.getHandCount();
-			points += player.getPoints();
-		}
-		/*
-		if (hCount + mCount + discardPile.getCount() + deckSize + knownCards.getCount() != 78){
-			System.err.println("Verify test 1 failed");
-			System.out.println("All cards in players' hands: " + handCount);
-			System.out.println("mShips collected: " + mCount);
-			System.out.println("discardPile: " + discardPile.getCount());
-			System.out.println("deckSize: " + deckSize);
-			System.out.println("knownCards: " + knownCards.getCount());
-			return false;
-		}
-		*/
-		return true;
-	}
 }
