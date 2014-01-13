@@ -1,5 +1,8 @@
 package com.game.loot;
 
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -33,15 +36,41 @@ public class VirtualGamePro {
 		gamesPlayed = 0;
 	}
 	
-	public void initializeNewGame(){
+	public void initializeNewGame(String[] args) throws IllegalArgumentException{
 		// Add players
 		ArrayList<Player> tPlayers = new ArrayList<Player>();
 		Player temp;
 		players = new ArrayList<Player>();
-		tPlayers.add((Player) new RandomAI("Ender"));
-		tPlayers.add((Player) new RandomAI("Efficiency"));
-		tPlayers.add((Player) new RandomAI("Artemis"));
-		tPlayers.add((Player) new RandomAI("Lowballer"));
+		
+		if (args.length > 1) {
+			for (int x = 1; x < args.length; x+=2) {
+				System.out.println(args[x]);
+				Class cls;
+				try {
+					cls = Class.forName("com.game.loot." + args[x]);
+					Constructor parentConstructor =   cls.getConstructor(String.class);
+					Player player = (Player)parentConstructor.newInstance(args[x+1]);
+					tPlayers.add(player);
+				} catch (ClassNotFoundException e) {
+					e.printStackTrace();
+				} catch (InstantiationException e) {
+					e.printStackTrace();
+				} catch (IllegalAccessException e) {
+					e.printStackTrace();
+				} catch (SecurityException e) {
+					e.printStackTrace();
+				} catch (NoSuchMethodException e) {
+					e.printStackTrace();
+				} catch (InvocationTargetException e) {
+					e.printStackTrace();
+				}  
+			}
+		} else {
+			tPlayers.add((Player) new RandomAI("Ender"));
+			tPlayers.add((Player) new RandomAI("Efficiency"));
+			tPlayers.add((Player) new RandomAI("Artemis"));
+			tPlayers.add((Player) new TriggerHappyAI ("Lowballer"));
+		}
 		
 		while (!tPlayers.isEmpty()){
 			temp = tPlayers.get(rand.nextInt(tPlayers.size()));
@@ -62,7 +91,7 @@ public class VirtualGamePro {
 			v.totalGames = games;
 		}
 		for (int i = 0; i< v.totalGames; i++) {
-			v.initializeNewGame();
+			v.initializeNewGame(args);
 			GameState gameState = new GameState(v.players);
 			
 			CardSet deck = CardSet.addFullDeck();

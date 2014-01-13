@@ -11,7 +11,7 @@ import java.util.Random;
 public class RandomAI extends VirtualPlayer {
 
 	
-	RandomAI(String name) {
+	public RandomAI(String name) {
 		super(name);
 	}
 	

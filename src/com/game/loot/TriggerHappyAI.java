@@ -11,7 +11,7 @@ public class TriggerHappyAI extends VirtualPlayer {
 
 	private Random rand;
 	
-	TriggerHappyAI(String name) {
+	public TriggerHappyAI(String name) {
 		super(name);
 		rand = new Random();
 	}
