@@ -81,6 +81,8 @@ public abstract class Player {
 		System.out.println("points: " + getPoints());
 		System.out.println("");
 	}
+	
+	public abstract void init(GameState gm);
 
 	public abstract Move getNextMove(GameState gm);
 }

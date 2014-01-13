@@ -43,6 +43,7 @@ public class LootEngine {
 	
 	void play() {
 		System.out.println("Starting Game!");
+		
 		System.out.println("Dealing cards...");
 		for (int x = 0; x < 6; x++) {
 			for (Player player : players) {
@@ -50,22 +51,29 @@ public class LootEngine {
 			}
 		}
 		
+		// Initialize all players now that they get to see their hands
+		for (Player player : players) {
+			player.init(gameState);
+		}
+		
 		// Loop until game end condition
 		while (!gamePlay.isEndOfGame()) {
 			for (Player player : players) {
 				if (!gamePlay.isEndOfGame()) {
 					// clear screen
-					if (player instanceof PhysicalPlayer) {
-						System.out.print(ANSI_CLS + ANSI_HOME);
-						System.out.flush();
-					}
-					else {
+					//if (player instanceof PhysicalPlayer) {
+						//System.out.print(ANSI_CLS + ANSI_HOME);
+						//System.out.flush();
+					//}
+					//else {
 						System.out.println("");
-					}
+					//}
+					gamePlay.collectMerchantShips(player);
+					
 					System.out.println("*** " + player.getName() + "'s Move");
 					printBoard();
 					System.out.println();
-					gamePlay.collectMerchantShips(player);
+					
 
 					boolean validMove = false;
 					while (!validMove) {
@@ -74,7 +82,6 @@ public class LootEngine {
 						validMove = gamePlay.executeMove(player, nextMove);
 						if (!validMove) {
 							System.out.println("Invalid move, please try again");
-							return; // added only for debugging reasons, TODO: remove eventually
 						} else {
 							gameState.addMoveToHistory(nextMove);
 							player.addMove(nextMove); 

@@ -1,6 +1,7 @@
 package com.game.loot;
 
 import java.util.List;
+import java.util.Random;
 
 public class VirtualPlayer extends Player {
 
@@ -71,13 +72,9 @@ public class VirtualPlayer extends Player {
 	
 	public void updateUnknownCards(List<Player> players){
 		for (Player p: players) {
-			if (p.getLastMove() != null){
-				if ((p.getLastMove().getAction() != ACTION.DRAW)
-						&& (p.getId() != getId())){
-					newCardSeen(p.getLastMove().getCard());
-				}				
+			if (p.getId() != getId() && p.getLastMove() != null  && p.getLastMove().getAction() != ACTION.DRAW) {
+				newCardSeen(p.getLastMove().getCard());
 			}
-			
 		}
 	}
 	
@@ -106,5 +103,8 @@ public class VirtualPlayer extends Player {
 		//System.out.println("After: " + unknownCards.getCount());
 		
 	}
-	
+
+	@Override
+	public void init(GameState gm) {
+	}
 }

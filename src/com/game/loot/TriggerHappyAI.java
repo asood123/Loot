@@ -61,7 +61,7 @@ public class TriggerHappyAI extends VirtualPlayer {
 		}
 		else if (!getHand().hasMShip() && getDeckSize() == 0){
 			// no merchant ships in hand and deck depleted. discard random card
-			return new Move(ACTION.DISCARD, randCard(), null);
+			return new Move(ACTION.DISCARD, getHand().getRandCard(), null);
 		}
 
 		// no mships and decksize > 0, so draw a card
@@ -141,15 +141,5 @@ public class TriggerHappyAI extends VirtualPlayer {
 		}
 		
 		return false;
-	}
-	
-	public Card randCard(){
-		Random r = new Random();
-		if (getHand().getCards().size() == 0) {
-			System.err.println("ERROR: No cards in hand and deck depleted. Game should be over");
-			return null;
-		}
-		int n = r.nextInt(getHand().getCards().size());
-		return getHand().getCards().get(n);
 	}
 }

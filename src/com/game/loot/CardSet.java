@@ -1,6 +1,8 @@
 package com.game.loot;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
 
 public class CardSet {
 
@@ -382,5 +384,16 @@ public class CardSet {
 		System.out.println(mShips + ".");
 		System.out.println(pShips + ".");
 		System.out.println(trumps + ".");
+	}
+	
+	public Card getRandCard(){
+		List<Card> cards = getCards();
+		if (cards.size() == 0) {
+			System.err.println("ERROR: No cards in set");
+			return null;
+		}
+		Random r = new Random();
+		int n = r.nextInt(cards.size());
+		return cards.get(n);
 	}
 }

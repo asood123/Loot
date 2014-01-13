@@ -50,9 +50,6 @@ public class PhysicalPlayer extends Player {
 			System.out.println("Undrawn cards: " + getDeckSize());
 		}
 		
-		
-
-		
 		while (!done){
 			try {
 				System.out.println("What would you like to do? Ex: M5, P2, TA, [Enter] (to draw), etc.");
@@ -68,8 +65,8 @@ public class PhysicalPlayer extends Player {
 					}
 				}
 				else if (hand.findCardFromString(input) != null){
-					
 	            	Card playCard = hand.findCardFromString(input);
+	            	// If we're playing a Merchant Ship, return that Move
 	            	if (playCard != null && playCard instanceof MerchantShip) {
 	            		return new Move(ACTION.PLAY_MERCHANT_SHIP, playCard, null);
 	            	}
@@ -84,17 +81,21 @@ public class PhysicalPlayer extends Player {
 
             		Battle battle = null;
         			while (battle == null) {
-        				System.out.println("Which battle do you want to attack?");
-        				int battleId = Integer.parseInt(br.readLine());
-        				battle = gameState.findBattleById(battleId);
-        				if (battle == null) {
-        					System.out.println("That battle wasn't found, please enter another.");
+        				List<Battle> battleList = gameState.getBattleList();
+
+        				if (battleList.size() == 1) {
+        					battle = battleList.get(0);
+        				} else {
+        					System.out.println("Which battle do you want to attack?");
+            				int battleId = Integer.parseInt(br.readLine());
+            				battle = gameState.findBattleById(battleId);
+            				if (battle == null) {
+            					System.out.println("That battle wasn't found, please enter another.");
+            				}
         				}
         			}                  	
                 	
         			return new Move(ACTION.PLAY_ATTACK, playCard, battle);
-
-					
 				}
 				else {
 					throw new Exception();
@@ -176,5 +177,11 @@ public class PhysicalPlayer extends Player {
 				}
 			}
 		}
+	}
+
+	@Override
+	public void init(GameState gm) {
+		// TODO Auto-generated method stub
+		
 	}
 }

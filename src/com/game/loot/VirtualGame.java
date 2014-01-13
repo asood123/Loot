@@ -5,10 +5,10 @@ import java.util.List;
 
 public class VirtualGame {
 	public static void main(String[] args){
-		Player p1 = new TriggerHappyAI("Aseem");
-		Player p2 = new RandomAI("Derek");
-		//Player p2 = new PhysicalPlayer("Derek", true);
-		Player p3 = new TriggerHappyAI("Henry");
+		Player p1 = new StatsAI("Stats");
+		//Player p2 = new RandomAI("Derek");
+		Player p2 = new PhysicalPlayer("Derek", true);
+		Player p3 = new TriggerHappyAI("Trigger");
 		
 		List<Player> players = new ArrayList<Player>();
 		players.add(p1);
