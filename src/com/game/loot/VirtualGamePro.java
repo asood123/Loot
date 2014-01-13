@@ -17,6 +17,7 @@ public class VirtualGamePro {
 	
 	HashMap<String, Float> hTally;
 	HashMap<String, Integer> hScoreTally;
+	HashMap<String, Integer> hPenaltyTally;
 	List<Player> players = new ArrayList<Player>();
 	int totalGames;
 	int gamesPlayed;
@@ -27,6 +28,7 @@ public class VirtualGamePro {
 		rand = new Random();
 		hTally = new HashMap<String, Float>();
 		hScoreTally = new HashMap<String, Integer>();
+		hPenaltyTally = new HashMap<String, Integer>();
 		totalGames = 1;
 		gamesPlayed = 0;
 	}
@@ -36,12 +38,14 @@ public class VirtualGamePro {
 		ArrayList<Player> tPlayers = new ArrayList<Player>();
 		Player temp;
 		players = new ArrayList<Player>();
-		Player p1 = new TriggerHappyAI("Michael");
+		Player p1 = new PlaysMerchantShipsFirstAI("Michael");
 		//Player p2 = new PhysicalPlayer("Aseem", true);
-		Player p2 = new RandomAI("Artemis");
+		Player p2 = new RandomAI("Randy");
 		Player p3 = new TriggerHappyAI("Terry");
-		//Player p3 = new PhysicalPlayer("Aseem", true);
-		Player p4 = new RandomAI("Ender");
+		//Player p4 = new PhysicalPlayer("Aseem", true);
+		Player p4 = new RandomAI("Ron");
+		
+		
 		
 		tPlayers.add(p1);
 		tPlayers.add(p2);
@@ -103,6 +107,7 @@ public class VirtualGamePro {
 			if (!hTally.containsKey(p.getName())){
 				hTally.put(p.getName(), 0.0f);
 				hScoreTally.put(p.getName(), 0);
+				hPenaltyTally.put(p.getName(), 0);
 			}
 			dTemp = 0;
 			if (p.getFinalPoints() == hScore) {
@@ -112,6 +117,7 @@ public class VirtualGamePro {
 				hTally.put(p.getName(), dTemp + (float)(1/(float)count));	
 			}
 			hScoreTally.put(p.getName(), hScoreTally.get(p.getName()) + p.getFinalPoints());
+			hPenaltyTally.put(p.getName(), hPenaltyTally.get(p.getName()) + p.getPoints() - p.getFinalPoints());
 		}
 	}
 	
@@ -121,7 +127,9 @@ public class VirtualGamePro {
 		float temp = 0;
 		
 		for (Player p: players) {
-			System.out.println(p.getName() + "'s Score: " + hTally.get(p.getName()) + " | Points: " + hScoreTally.get(p.getName()));
+			System.out.println(p.getName() + "'s Score: " + hTally.get(p.getName()) 
+					+ " | Points: " + hScoreTally.get(p.getName())
+					+ " | Penalty: " + hPenaltyTally.get(p.getName()));
 			temp += hTally.get(p.getName());
 		}
 		if (temp < (float)gamesPlayed){
