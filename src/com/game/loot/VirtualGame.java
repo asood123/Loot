@@ -5,7 +5,7 @@ import java.util.List;
 
 public class VirtualGame {
 	public static void main(String[] args){
-		Player p1 = new StatsAI("Stats");
+		Player p1 = new RandomAI("Stats");
 		//Player p2 = new RandomAI("Derek");
 		Player p2 = new PhysicalPlayer("Derek", true);
 		Player p3 = new TriggerHappyAI("Trigger");
