@@ -53,16 +53,22 @@ public class VirtualGamePro {
 					tPlayers.add(player);
 				} catch (ClassNotFoundException e) {
 					e.printStackTrace();
+					System.exit(0);
 				} catch (InstantiationException e) {
 					e.printStackTrace();
+					System.exit(0);
 				} catch (IllegalAccessException e) {
 					e.printStackTrace();
+					System.exit(0);
 				} catch (SecurityException e) {
 					e.printStackTrace();
+					System.exit(0);
 				} catch (NoSuchMethodException e) {
 					e.printStackTrace();
+					System.exit(0);
 				} catch (InvocationTargetException e) {
 					e.printStackTrace();
+					System.exit(0);
 				}  
 			}
 		} else {
