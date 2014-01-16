@@ -101,6 +101,7 @@ public class VirtualGamePro {
 			v.totalGames = games;
 		}
 		for (int i = 0; i< v.totalGames; i++) {
+			System.out.print("Games Completed: " + (i+1) + "\r");
 			v.initializeNewGame(args);
 			GameState gameState = new GameState(v.players);
 			
