@@ -6,14 +6,20 @@ import java.util.List;
 public abstract class GamePlay {
 	GameState gameState;
 	CardSet deck;
+	boolean verbose;
 	
 	GamePlay(GameState gameState, CardSet deck) {
 		this.gameState = gameState;
 		this.deck = deck;
+		this.verbose = true;
 	}
 	
 	public GameState getGameState() {
 		return gameState;
+	}
+	
+	public void setVerbosity(boolean v) {
+		verbose = v;
 	}
 	
 	public abstract void playerDrawsCard(Player player, CardSet deck);
@@ -80,7 +86,9 @@ public abstract class GamePlay {
 		
 		// For each done battle, remove from list, discard cards, update player
 		for (Battle battle : doneBattles) {
-			System.out.println("Battle #" + battle.getId() + " is finished!");
+			if (verbose){
+				System.out.println("Battle #" + battle.getId() + " is finished!");
+			}
 			// Remove battle from ongoing battles
 			ongoingBattles.remove(battle);
 			
@@ -90,7 +98,9 @@ public abstract class GamePlay {
 			
 			// Award merchant cards to current player
 			player.addMerchantShipWon(battle.getMerchantShip());
-			System.out.println(player.getName() + " got a ship worth " + battle.getMerchantShip().getValue() + " points and now has " + player.getPoints());
+			if (verbose) {
+				System.out.println(player.getName() + " got a ship worth " + battle.getMerchantShip().getValue() + " points and now has " + player.getPoints());
+			}
 		}		
 	}
 }

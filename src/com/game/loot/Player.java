@@ -29,6 +29,7 @@ public abstract class Player {
 		return name;
 	}
 	
+	
 	public int getId() {
 		return id;
 	}
@@ -72,15 +73,6 @@ public abstract class Player {
 	public abstract void addCard(Card card);
 	
 	public abstract void removeCard(Card card);
-
-	
-	// testing/debugging
-	public void printPlayerStats() {
-		System.out.println("N: " + name + " | Id: " + id);
-		System.out.println("handCount: " + getHandCount());
-		System.out.println("points: " + getPoints());
-		System.out.println("");
-	}
 	
 	public abstract void init(GameState gm);
 

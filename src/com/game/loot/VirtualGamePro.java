@@ -25,6 +25,8 @@ public class VirtualGamePro {
 	int totalGames;
 	int gamesPlayed;
 	Random rand;
+	long startTime;
+	long stopTime; 
 	
 	VirtualGamePro(){		
 		// setup tally
@@ -34,6 +36,8 @@ public class VirtualGamePro {
 		hPenaltyTally = new HashMap<String, Integer>();
 		totalGames = 1;
 		gamesPlayed = 0;
+		startTime = System.currentTimeMillis();
+		stopTime = System.currentTimeMillis();
 	}
 	
 	public void initializeNewGame(String[] args) throws IllegalArgumentException{
@@ -44,7 +48,7 @@ public class VirtualGamePro {
 		
 		if (args.length > 1) {
 			for (int x = 1; x < args.length; x+=2) {
-				System.out.println(args[x]);
+				//System.out.println(args[x]);
 				Class cls;
 				try {
 					cls = Class.forName("com.game.loot." + args[x]);
@@ -105,11 +109,32 @@ public class VirtualGamePro {
 			GamePlay gamePlay = new VirtualGamePlay(gameState, deck);
 			
 			LootEngine engine = new LootEngine(v.players, gamePlay, gameState);
+			boolean verbosity = v.setVerbosity();
+				
+			// set verbosity
+			gamePlay.setVerbosity(verbosity);
+			engine.setVerbosity(verbosity);
+			for (Player p: v.players) {
+				if (p instanceof VirtualPlayer){
+					((VirtualPlayer) p).setVerbosity(verbosity);
+				}
+			}
+			
 			engine.play();
 			v.gamesPlayed++;
 			v.hTallyPoints();
 		}
+		v.stopTime = System.currentTimeMillis();
 		v.printHTally();
+	}
+	
+	
+	
+	public boolean setVerbosity() {
+		if (totalGames > 10){
+			return false;
+		}
+		return true;
 	}
 	
 	public void hTallyPoints(){
@@ -161,6 +186,7 @@ public class VirtualGamePro {
 		if (temp < (float)gamesPlayed){
 			System.err.println("Score adds up to only: " + temp);
 		}
+		System.out.println("Total time elapsed: " + (stopTime - startTime) + "ms");
 	}
 }
 

@@ -8,12 +8,14 @@ public class VirtualPlayer extends Player {
 	private CardSet hand;
 	private CardSet unknownCards;
 	private int deckSize;
+	private boolean verbose;
 	
 	public VirtualPlayer(String name) {
 		super(name);
 		hand = new CardSet();
 		unknownCards = CardSet.addFullDeck();
 		deckSize = 100; 
+		verbose = true;
 	}
 
 	@Override
@@ -36,6 +38,14 @@ public class VirtualPlayer extends Player {
 	public CardSet getUnknownCards(){
 		return unknownCards;
 	}
+	
+	public boolean getVerbosity(){
+		return verbose;
+	}
+	
+	public void setVerbosity(boolean v){
+		verbose = v;
+	}
 
 	@Override
 	public Move getNextMove(GameState gm) {
@@ -47,14 +57,18 @@ public class VirtualPlayer extends Player {
 	@Override
 	public void addCard(Card card) {
 		hand.addCard(card);
-		System.out.println("I'm " + getName() + " and I just got card: " + card + "  and my hand is now:  " + hand);
+		if (verbose) {
+			System.out.println("I'm " + getName() + " and I just got card: " + card + "  and my hand is now:  " + hand);
+		}
 		newCardSeen(card);
 	}
 
 	@Override
 	public void removeCard(Card card) {
 		hand.removeCard(card);
-		System.out.println("I'm " + getName() + " and I just removed card: " + card + "  and my hand is now:  " + hand);
+		if (verbose) {
+			System.out.println("I'm " + getName() + " and I just removed card: " + card + "  and my hand is now:  " + hand);
+		}
 	}
 	
 	@Override
@@ -94,14 +108,7 @@ public class VirtualPlayer extends Player {
 	
 	public void newCardSeen(Card c) {
 		
-		/*System.out.println(getName() + ": removing unknowncards: " + c.toString());
-		System.out.println("Before: " + unknownCards.getCount());
-		if (unknownCards.hasCard(c)) {
-			System.out.println("Card found in unknownCards");
-		}*/
 		unknownCards.removeCard(c);
-		//System.out.println("After: " + unknownCards.getCount());
-		
 	}
 
 	@Override
