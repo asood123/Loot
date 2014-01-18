@@ -25,7 +25,16 @@ public class VirtualGamePro {
 	int gamesPlayed;
 	Random rand;
 	long startTime;
-	static final String ANSI_CSI = "\u001b[";
+	public static final String ANSI_CSI = "\u001b[";
+	public static final String ANSI_RESET = "\u001B[0m";
+	public static final String ANSI_BLACK = "\u001B[30m";
+	public static final String ANSI_RED = "\u001B[31m";
+	public static final String ANSI_GREEN = "\u001B[32m";
+	public static final String ANSI_YELLOW = "\u001B[33m";
+	public static final String ANSI_BLUE = "\u001B[34m";
+	public static final String ANSI_PURPLE = "\u001B[35m";
+	public static final String ANSI_CYAN = "\u001B[36m";
+	public static final String ANSI_WHITE = "\u001B[37m";
 	
 	VirtualGamePro(){		
 		// setup tally
@@ -182,10 +191,26 @@ public class VirtualGamePro {
 	}
 	
 	public void printHTally() {
+		float score = -1;
+		Player winner = null;
 		for (Player p: origPlayers) {
+			if (hTally.get(p.getName()) > score){
+				score = hTally.get(p.getName());
+				winner = p;
+			}
+		}
+		
+		for (Player p: origPlayers) {
+			if (p == winner) {
+				System.out.print(ANSI_RED);
+			}
 			System.out.printf(p.getName() + "'s Score: " + "%.2f"
 					+ " | Points: " + hScoreTally.get(p.getName())
 					+ " | Penalty: " + hPenaltyTally.get(p.getName()) + "\n", hTally.get(p.getName()));
+			
+			if (p == winner) {
+				System.out.print(ANSI_RESET);
+			}
 		}
 		System.out.println("Total time elapsed: " + (System.currentTimeMillis() - startTime) + "ms");
 	}
