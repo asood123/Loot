@@ -26,7 +26,7 @@ public class VirtualGamePro {
 	Random rand;
 	long startTime;
 	long stopTime; 
-	public static final String ANSI_CSI = "\u001b[";
+	static final String ANSI_CSI = "\u001b[";
 	
 	VirtualGamePro(){		
 		// setup tally
@@ -38,8 +38,8 @@ public class VirtualGamePro {
 		gamesPlayed = 0;
 		startTime = System.currentTimeMillis();
 		stopTime = System.currentTimeMillis();
-		List<Player> players = new ArrayList<Player>();
-		List<Player> origPlayers = new ArrayList<Player>();
+		players = new ArrayList<Player>();
+		origPlayers = new ArrayList<Player>();
 	}
 	
 	public void readArgs(String[] args, List<Player> pList) throws IllegalArgumentException{
@@ -103,6 +103,7 @@ public class VirtualGamePro {
 		
 		VirtualGamePro v = new VirtualGamePro();
 		v.readArgs(args, v.origPlayers);
+		
 		if (games > 0) {
 			v.totalGames = games;
 		}
