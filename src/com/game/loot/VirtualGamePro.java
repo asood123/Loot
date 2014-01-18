@@ -15,18 +15,18 @@ import java.util.Random;
  */
 
 public class VirtualGamePro {
-	
-	//final int TOTALGAMES = 1000;
-	
+		
 	HashMap<String, Float> hTally;
 	HashMap<String, Integer> hScoreTally;
 	HashMap<String, Integer> hPenaltyTally;
-	List<Player> players = new ArrayList<Player>();
+	List<Player> players;
+	List<Player> origPlayers;
 	int totalGames;
 	int gamesPlayed;
 	Random rand;
 	long startTime;
 	long stopTime; 
+	public static final String ANSI_CSI = "\u001b[";
 	
 	VirtualGamePro(){		
 		// setup tally
@@ -38,23 +38,20 @@ public class VirtualGamePro {
 		gamesPlayed = 0;
 		startTime = System.currentTimeMillis();
 		stopTime = System.currentTimeMillis();
+		List<Player> players = new ArrayList<Player>();
+		List<Player> origPlayers = new ArrayList<Player>();
 	}
 	
-	public void initializeNewGame(String[] args) throws IllegalArgumentException{
-		// Add players
-		ArrayList<Player> tPlayers = new ArrayList<Player>();
-		Player temp;
-		players = new ArrayList<Player>();
-		
+	public void readArgs(String[] args, List<Player> pList) throws IllegalArgumentException{
 		if (args.length > 1) {
 			for (int x = 1; x < args.length; x+=2) {
-				//System.out.println(args[x]);
+				//System.out.println("Adding " + args[x]);
 				Class cls;
 				try {
 					cls = Class.forName("com.game.loot." + args[x]);
 					Constructor parentConstructor =   cls.getConstructor(String.class);
 					Player player = (Player)parentConstructor.newInstance(args[x+1]);
-					tPlayers.add(player);
+					pList.add(player);
 				} catch (ClassNotFoundException e) {
 					e.printStackTrace();
 					System.exit(0);
@@ -76,12 +73,20 @@ public class VirtualGamePro {
 				}  
 			}
 		} else {
-			tPlayers.add((Player) new RandomAI("Ender"));
-			tPlayers.add((Player) new RandomAI("Efficiency"));
-			tPlayers.add((Player) new RandomAI("Artemis"));
-			tPlayers.add((Player) new TriggerHappyAI ("Lowballer"));
+			pList.add((Player) new RandomAI("Ender"));
+			pList.add((Player) new RandomAI("Efficiency"));
+			pList.add((Player) new RandomAI("Artemis"));
+			pList.add((Player) new TriggerHappyAI ("Lowballer"));
 		}
+	}
+	
+	public void initializeNewGame(String[] args){
+		// Add players
+		ArrayList<Player> tPlayers = new ArrayList<Player>();
+		Player temp;
+		players = new ArrayList<Player>();
 		
+		readArgs(args, tPlayers);
 		while (!tPlayers.isEmpty()){
 			temp = tPlayers.get(rand.nextInt(tPlayers.size()));
 			players.add(temp);
@@ -90,18 +95,18 @@ public class VirtualGamePro {
 	}
 
 	public static void main(String[] args){
-		
+		System.out.println("");
 		int games = 0;
 		if (args.length > 0) {
 			games = Integer.parseInt(args[0]);
 		}
 		
 		VirtualGamePro v = new VirtualGamePro();
+		v.readArgs(args, v.origPlayers);
 		if (games > 0) {
 			v.totalGames = games;
 		}
 		for (int i = 0; i< v.totalGames; i++) {
-			System.out.print("Games Completed: " + (i+1) + "\r");
 			v.initializeNewGame(args);
 			GameState gameState = new GameState(v.players);
 			
@@ -124,9 +129,15 @@ public class VirtualGamePro {
 			engine.play();
 			v.gamesPlayed++;
 			v.hTallyPoints();
+			System.out.println("Games Completed: " + (i+1));
+			v.printHTally();
+			System.out.print(ANSI_CSI + "5A");
+
 		}
 		v.stopTime = System.currentTimeMillis();
-		v.printHTally();
+		
+		System.out.print(ANSI_CSI + "5B");
+		System.out.println("Total time elapsed: " + (v.stopTime - v.startTime) + "ms");
 	}
 	
 	
@@ -174,20 +185,14 @@ public class VirtualGamePro {
 	}
 	
 	public void printHTally() {
-		System.out.println("");
-		System.out.println("Games Played: " + totalGames);
 		float temp = 0;
 		
-		for (Player p: players) {
+		for (Player p: origPlayers) {
 			System.out.println(p.getName() + "'s Score: " + hTally.get(p.getName()) 
 					+ " | Points: " + hScoreTally.get(p.getName())
 					+ " | Penalty: " + hPenaltyTally.get(p.getName()));
 			temp += hTally.get(p.getName());
 		}
-		if (temp < (float)gamesPlayed){
-			System.err.println("Score adds up to only: " + temp);
-		}
-		System.out.println("Total time elapsed: " + (stopTime - startTime) + "ms");
 	}
 }
 
