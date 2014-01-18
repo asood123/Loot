@@ -25,7 +25,6 @@ public class VirtualGamePro {
 	int gamesPlayed;
 	Random rand;
 	long startTime;
-	long stopTime; 
 	static final String ANSI_CSI = "\u001b[";
 	
 	VirtualGamePro(){		
@@ -37,7 +36,6 @@ public class VirtualGamePro {
 		totalGames = 1;
 		gamesPlayed = 0;
 		startTime = System.currentTimeMillis();
-		stopTime = System.currentTimeMillis();
 		players = new ArrayList<Player>();
 		origPlayers = new ArrayList<Player>();
 	}
@@ -132,13 +130,11 @@ public class VirtualGamePro {
 			v.hTallyPoints();
 			System.out.println("Games Completed: " + (i+1));
 			v.printHTally();
-			System.out.print(ANSI_CSI + "5A");
+			System.out.print(ANSI_CSI + "6A");
 
 		}
-		v.stopTime = System.currentTimeMillis();
 		
-		System.out.print(ANSI_CSI + "5B");
-		System.out.println("Total time elapsed: " + (v.stopTime - v.startTime) + "ms");
+		System.out.print(ANSI_CSI + "6B");
 	}
 	
 	
@@ -194,6 +190,7 @@ public class VirtualGamePro {
 					+ " | Penalty: " + hPenaltyTally.get(p.getName()));
 			temp += hTally.get(p.getName());
 		}
+		System.out.println("Total time elapsed: " + (System.currentTimeMillis() - startTime) + "ms");
 	}
 }
 
