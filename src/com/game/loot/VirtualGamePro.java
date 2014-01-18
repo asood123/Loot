@@ -182,13 +182,10 @@ public class VirtualGamePro {
 	}
 	
 	public void printHTally() {
-		float temp = 0;
-		
 		for (Player p: origPlayers) {
-			System.out.println(p.getName() + "'s Score: " + hTally.get(p.getName()) 
+			System.out.printf(p.getName() + "'s Score: " + "%.2f"
 					+ " | Points: " + hScoreTally.get(p.getName())
-					+ " | Penalty: " + hPenaltyTally.get(p.getName()));
-			temp += hTally.get(p.getName());
+					+ " | Penalty: " + hPenaltyTally.get(p.getName()) + "\n", hTally.get(p.getName()));
 		}
 		System.out.println("Total time elapsed: " + (System.currentTimeMillis() - startTime) + "ms");
 	}
