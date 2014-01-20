@@ -70,10 +70,26 @@ public class AttackBattleLogger {
 				highScore = 20;
 			}
 			
+			int drawMoves = 0;
+			int attackMoves = 0; 
+			int merchantMoves = 0;
+			for (Move m : player.getMoves()) {
+				if (m.getAction() == ACTION.DRAW) {
+					drawMoves++;
+				} else if (m.getAction() == ACTION.PLAY_ATTACK) {
+					attackMoves++;
+				} else if (m.getAction() == ACTION.PLAY_MERCHANT_SHIP) {
+					merchantMoves++;
+				}
+			}
+			
 			AttackBattleFeatures features = new AttackBattleFeatures(numCardsInHand,
 					battle.getMerchantShip().getValue(),
 					battle.getAttackers().size(),
-					highScore);
+					highScore,
+					attackMoves,
+					drawMoves,
+					merchantMoves);
 			
 			boolean attacked = false;
 			// If the player attacks this battle, that's the output we're tracking
