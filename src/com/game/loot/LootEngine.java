@@ -99,13 +99,15 @@ public class LootEngine {
 						if (verbose) {
 							System.out.println("Proposed Move: " + nextMove.toString());
 						}
+						
+						// This assumes that the nextMove is valid...if not then we're logging extra data
+						logger.logMove(gameState, nextMove, player);
 						validMove = gamePlay.executeMove(player, nextMove);
 						if (!validMove) {
-							System.out.println("Invalid move, please try again");
+							System.err.println("Invalid move, please try again");
 						} else {
 							gameState.addMoveToHistory(nextMove);
 							player.addMove(nextMove);
-							logger.logMove(gameState, nextMove, player);
 						}
 					}
 				}
