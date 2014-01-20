@@ -7,19 +7,27 @@ public class LootEngine {
 	GamePlay gamePlay;
 	GameState gameState;
 	final String ANSI_CLS = "\u001b[2J";
-    final String ANSI_HOME = "\u001b[H";	
+    final String ANSI_HOME = "\u001b[H";
+    boolean verbose;
 	
 	public LootEngine(List<Player> players, GamePlay gamePlay, GameState gameState) {
 		this.players = players;
 		this.gamePlay = gamePlay;
 		this.gameState = gameState;
+		this.verbose = true;
+	}
+	
+	public void setVerbosity(boolean v) {
+		this.verbose = v;
 	}
 	
 	public void endGame() {
-		System.out.println("Game Ended!");
+		if (verbose) {
+			System.out.println("Game Ended!");
 		
-		for (Player player : players){
-			System.out.println(player.getName() + ":" + player.getFinalPoints());
+			for (Player player : players){
+				System.out.println(player.getName() + ":" + player.getFinalPoints());
+			}
 		}
 	}
 	
@@ -42,9 +50,12 @@ public class LootEngine {
 	}
 	
 	void play() {
-		System.out.println("Starting Game!");
 		
-		System.out.println("Dealing cards...");
+		if (verbose) {
+			System.out.println("Starting Game!");
+		
+			System.out.println("Dealing cards...");
+		}
 		for (int x = 0; x < 6; x++) {
 			for (Player player : players) {
 				gamePlay.executeMove(player, new Move(ACTION.DRAW, null, null));
@@ -60,25 +71,25 @@ public class LootEngine {
 		while (!gamePlay.isEndOfGame()) {
 			for (Player player : players) {
 				if (!gamePlay.isEndOfGame()) {
-					// clear screen
-					//if (player instanceof PhysicalPlayer) {
-						//System.out.print(ANSI_CLS + ANSI_HOME);
-						//System.out.flush();
-					//}
-					//else {
+
+					if (verbose) {
 						System.out.println("");
-					//}
+					}
 					gamePlay.collectMerchantShips(player);
 					
-					System.out.println("*** " + player.getName() + "'s Move");
-					printBoard();
-					System.out.println();
+					if (verbose) {
+						System.out.println("*** " + player.getName() + "'s Move");
+						printBoard();
+						System.out.println();
+					}
 					
 
 					boolean validMove = false;
 					while (!validMove) {
 						Move nextMove = player.getNextMove(gameState);
-						System.out.println("Proposed Move: " + nextMove.toString());
+						if (verbose) {
+							System.out.println("Proposed Move: " + nextMove.toString());
+						}
 						validMove = gamePlay.executeMove(player, nextMove);
 						if (!validMove) {
 							System.out.println("Invalid move, please try again");

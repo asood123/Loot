@@ -11,6 +11,7 @@ public class Battle{
 	private Attacker ownerAttacker;
 	private int id;
 	private static int battleCount = 1;
+	private boolean verbose;
 
 	
 	public Battle(MerchantShip merchantShip, Player ownerPlayer, int moveNum) {
@@ -23,6 +24,7 @@ public class Battle{
 		winningAttacker = ownerAttacker;
 		
 		id = battleCount++;
+		verbose = false;
 	}
 	
 	public Battle(Battle b) {
@@ -38,11 +40,16 @@ public class Battle{
 		winningAttacker = ownerAttacker;
 		winningAttacker = calcCurrentWinner();
 		id = battleCount++;
+		this.verbose = b.getVerbosity(); 
 	}
 	
 	// getters
 	public int getId(){
 		return id;
+	}
+	
+	public boolean getVerbosity(){
+		return verbose;
 	}
 	
 	public MerchantShip getMerchantShip() {
@@ -96,6 +103,12 @@ public class Battle{
 			}
 		}
 		return hScore;
+	}
+	
+	// setter
+	
+	public void setVerbosity(boolean v) {
+		verbose = v;
 	}
 	
 	protected boolean isColorInUse(Color c) {
@@ -158,12 +171,14 @@ public class Battle{
 		}
 		
 		winningAttacker = calcCurrentWinner();
-		System.out.println("Added " + card + " to battle " + getId() + ".");
-		
-		if (winningAttacker == null) {
-			System.out.println("Its currently a tie");
-		} else {
-			System.out.println("Current winner is: " + winningAttacker.getPlayer().getName());
+		if (verbose) {
+			System.out.println("Added " + card + " to battle " + getId() + ".");
+			
+			if (winningAttacker == null) {
+				System.out.println("Its currently a tie");
+			} else {
+				System.out.println("Current winner is: " + winningAttacker.getPlayer().getName());
+			}
 		}
 		
 		return true;

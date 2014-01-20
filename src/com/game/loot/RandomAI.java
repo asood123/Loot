@@ -70,8 +70,9 @@ public class RandomAI extends VirtualPlayer {
 			}
 		}
 		
-		System.out.println("Valid moves found: " + validMoves.size());
-
+		if (super.getVerbosity()) {
+			System.out.println("Valid moves found: " + validMoves.size());
+		}
 		return validMoves.get(rand.nextInt(validMoves.size()));
 	
 	}
