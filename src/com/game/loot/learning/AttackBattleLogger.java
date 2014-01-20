@@ -70,7 +70,7 @@ public class AttackBattleLogger {
 				highScore = 20;
 			}
 			
-			int drawMoves = 0;
+			int drawMoves = 6;
 			int attackMoves = 0; 
 			int merchantMoves = 0;
 			for (Move m : player.getMoves()) {
