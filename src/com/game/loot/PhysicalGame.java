@@ -11,11 +11,12 @@ public class PhysicalGame {
 		List<Player> players = new ArrayList<Player>();
 		players.add(p1);
 		players.add(p2);
-		GameState gameState = new GameState(players);
 		
 		CardSet deck = CardSet.addFullDeck();
 		
-		GamePlay gamePlay = new PhysicalGamePlay(gameState, deck);
+		GameState gameState = new GameState(players, deck);
+		
+		GamePlay gamePlay = new PhysicalGamePlay(gameState);
 		
 		LootEngine engine = new LootEngine(players, gamePlay, gameState);
 		engine.play();

@@ -20,9 +20,11 @@ public class GameState {
 	
 	private List<Move> moveHistory;
 	
+	CardSet deck;
+	
 	// initializers
 	
-	public GameState(List<Player> players) {
+	public GameState(List<Player> players, CardSet deck) {
 		this.players = players;
 		
 		// initiate cards
@@ -34,7 +36,7 @@ public class GameState {
 		// initiate battles
 		battles = new ArrayList<Battle>();
 		moveHistory = new ArrayList<Move>();
-		
+		this.deck = deck;
 	}
 
 	// Getters
@@ -61,6 +63,10 @@ public class GameState {
 	
 	public int getMoveCount() {
 		return moveHistory.size();
+	}
+	
+	public CardSet getDeck() {
+		return deck;
 	}
 
 	// Setters

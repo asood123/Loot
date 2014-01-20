@@ -4,8 +4,8 @@ import java.util.ArrayList;
 
 public class PhysicalGamePlay extends GamePlay {
 
-	PhysicalGamePlay(GameState gameState, CardSet deck) {
-		super(gameState, deck);
+	PhysicalGamePlay(GameState gameState) {
+		super(gameState);
 	}
 
 	@Override

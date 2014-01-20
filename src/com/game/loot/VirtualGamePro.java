@@ -120,11 +120,11 @@ public class VirtualGamePro {
 		}
 		for (int i = 0; i< v.totalGames; i++) {
 			v.initializeNewGame(args);
-			GameState gameState = new GameState(v.players);
-			
 			CardSet deck = CardSet.addFullDeck();
 			
-			GamePlay gamePlay = new VirtualGamePlay(gameState, deck);
+			GameState gameState = new GameState(v.players, deck);
+			
+			GamePlay gamePlay = new VirtualGamePlay(gameState);
 			
 			LootEngine engine = new LootEngine(v.players, gamePlay, gameState);
 			boolean verbosity = v.setVerbosity();

@@ -5,12 +5,10 @@ import java.util.List;
 
 public abstract class GamePlay {
 	GameState gameState;
-	CardSet deck;
 	boolean verbose;
 	
-	GamePlay(GameState gameState, CardSet deck) {
+	GamePlay(GameState gameState) {
 		this.gameState = gameState;
-		this.deck = deck;
 		this.verbose = true;
 	}
 	
@@ -25,7 +23,7 @@ public abstract class GamePlay {
 	public abstract void playerDrawsCard(Player player, CardSet deck);
 	
 	boolean isEndOfGame() {		
-		if (deck.getCount() == 0) {
+		if (gameState.getDeck().getCount() == 0) {
 			// if decksize is 0
 			// and any player is down to zero cards
 			for (Player player : gameState.getPlayers()) {
@@ -40,7 +38,7 @@ public abstract class GamePlay {
 	public boolean executeMove(Player player, Move move) {
 		switch(move.getAction()) {
 		case DRAW:
-			playerDrawsCard(player, deck);
+			playerDrawsCard(player, gameState.getDeck());
 			break;
 		case PLAY_MERCHANT_SHIP:
 			MerchantShip ship = (MerchantShip) move.getCard();

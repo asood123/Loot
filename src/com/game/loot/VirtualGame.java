@@ -14,11 +14,11 @@ public class VirtualGame {
 		players.add(p1);
 		players.add(p2);
 		players.add(p3);
-		GameState gameState = new GameState(players);
-		
 		CardSet deck = CardSet.addFullDeck();
 		
-		GamePlay gamePlay = new VirtualGamePlay(gameState, deck);
+		GameState gameState = new GameState(players, deck);
+		
+		GamePlay gamePlay = new VirtualGamePlay(gameState);
 		
 		LootEngine engine = new LootEngine(players, gamePlay, gameState);
 		engine.play();

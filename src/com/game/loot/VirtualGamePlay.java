@@ -5,8 +5,8 @@ import java.util.Random;
 
 public class VirtualGamePlay extends GamePlay {
 	private Random rand;
-	VirtualGamePlay(GameState gameState, CardSet deck) {
-		super(gameState, deck);
+	VirtualGamePlay(GameState gameState) {
+		super(gameState);
 		rand =  new Random();
 	}
 
