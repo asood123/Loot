@@ -66,7 +66,7 @@ public class AttackBattleFeatures {
 		output += numMerchantPlayed + " ";
 		output += deckSize + " ";
 		output += discardSize + " ";
-		output += isTie + " ";
+		output += (isTie ? "1" : "0") + " ";
 		return output;
 	}
 	
