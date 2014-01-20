@@ -63,7 +63,7 @@ public class AttackBattleLogger {
 	public void logMove(GameState gm, Move move, Player player) {
 		int numCardsInHand = player.getHandCount();
 		
-		
+		int index = 0;
 		for (Battle battle : gm.getBattleList()) {
 			int highScore = battle.getHighScore();
 			if (highScore == Integer.MAX_VALUE) {
@@ -92,7 +92,8 @@ public class AttackBattleLogger {
 					merchantMoves,
 					gm.getDeck().getCount(),
 					gm.getDiscardCards().getCount(),
-					battle.getWinningPlayer() == null ? true : false);
+					battle.getWinningPlayer() == null ? true : false,
+					index);
 			
 			boolean attacked = false;
 			// If the player attacks this battle, that's the output we're tracking
@@ -102,6 +103,7 @@ public class AttackBattleLogger {
 			features.setAttacked(attacked);
 
 			playerAttackBattleFeatures.get(player.getName()).add(features);
+			index++;
 		}	
 	}
 	

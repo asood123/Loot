@@ -11,6 +11,7 @@ public class AttackBattleFeatures {
 	int deckSize;
 	int discardSize;
 	boolean isTie;
+	int battleIndex;
 	
 	boolean attacked;
 	
@@ -27,7 +28,8 @@ public class AttackBattleFeatures {
 			int numMerchantPlayed,
 			int deckSize,
 			int discardSize,
-			boolean isTie) {
+			boolean isTie,
+			int battleIndex) {
 		this.numCardsInHand = numCardsInHand;
 		this.valueOfMerchantCard = valueOfMerchantCard;
 		this.playersInBattle = playersInBattle;
@@ -38,6 +40,7 @@ public class AttackBattleFeatures {
 		this.deckSize = deckSize;
 		this.discardSize = discardSize;
 		this.isTie = isTie;
+		this.battleIndex = battleIndex;
 	}
 
 	public static String getFeatureHeaders() {
@@ -52,6 +55,7 @@ public class AttackBattleFeatures {
 		output += "deckSize" + " ";
 		output += "discardSize" + " ";
 		output += "isTie" + " ";
+		output += "battleIndex" + " ";
 		return output;
 	}
 	
@@ -67,6 +71,7 @@ public class AttackBattleFeatures {
 		output += deckSize + " ";
 		output += discardSize + " ";
 		output += (isTie ? "1" : "0") + " ";
+		output += battleIndex + " ";
 		return output;
 	}
 	
