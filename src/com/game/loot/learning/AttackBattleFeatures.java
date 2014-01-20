@@ -3,6 +3,8 @@ package com.game.loot.learning;
 public class AttackBattleFeatures {
 	int numCardsInHand;
 	int valueOfMerchantCard;
+	int playersInBattle;
+	int highPointsInBattle;
 	
 	boolean attacked;
 	
@@ -10,15 +12,22 @@ public class AttackBattleFeatures {
 		this.attacked = attacked;
 	}
 
-	public AttackBattleFeatures(int numCardsInHand, int valueOfMerchantCard) {
+	public AttackBattleFeatures(int numCardsInHand,
+			int valueOfMerchantCard,
+			int playersInBattle,
+			int highPointsInBattle) {
 		this.numCardsInHand = numCardsInHand;
 		this.valueOfMerchantCard = valueOfMerchantCard;
+		this.playersInBattle = playersInBattle;
+		this.highPointsInBattle = highPointsInBattle;
 	}
 
 	public static String getFeatureHeaders() {
 		String output = "";
 		output += "numCardsInHand" + " ";
 		output += "valueOfMerchantCard" + " ";
+		output += "playersInBattle" + " ";
+		output += "highPointsInBattle" + " ";
 		return output;
 	}
 	
@@ -26,6 +35,8 @@ public class AttackBattleFeatures {
 		String output = "";
 		output += numCardsInHand + " ";
 		output += valueOfMerchantCard + " ";
+		output += playersInBattle + " ";
+		output += highPointsInBattle + " ";
 		return output;
 	}
 	

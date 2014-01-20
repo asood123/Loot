@@ -63,8 +63,17 @@ public class AttackBattleLogger {
 	public void logMove(GameState gm, Move move, Player player) {
 		int numCardsInHand = player.getHandCount();
 		
+		
 		for (Battle battle : gm.getBattleList()) {
-			AttackBattleFeatures features = new AttackBattleFeatures(numCardsInHand, battle.getMerchantShip().getValue());
+			int highScore = battle.getHighScore();
+			if (highScore == Integer.MAX_VALUE) {
+				highScore = 20;
+			}
+			
+			AttackBattleFeatures features = new AttackBattleFeatures(numCardsInHand,
+					battle.getMerchantShip().getValue(),
+					battle.getAttackers().size(),
+					highScore);
 			
 			boolean attacked = false;
 			// If the player attacks this battle, that's the output we're tracking
