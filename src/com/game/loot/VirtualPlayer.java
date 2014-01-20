@@ -3,6 +3,8 @@ package com.game.loot;
 import java.util.List;
 import java.util.Random;
 
+import com.game.loot.Move.ACTION;
+
 public class VirtualPlayer extends Player {
 
 	private CardSet hand;

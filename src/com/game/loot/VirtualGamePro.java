@@ -8,6 +8,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
 
+import com.game.loot.learning.AttackBattleLogger;
+
 
 /*
  * Allows you to run multiple games (through command line)
@@ -111,6 +113,8 @@ public class VirtualGamePro {
 		VirtualGamePro v = new VirtualGamePro();
 		v.readArgs(args, v.origPlayers);
 		
+		
+		AttackBattleLogger logger = new AttackBattleLogger(v.origPlayers, "/tmp/features", "/tmp/outputs");
 		if (games > 0) {
 			v.totalGames = games;
 		}
@@ -128,6 +132,8 @@ public class VirtualGamePro {
 			// set verbosity
 			gamePlay.setVerbosity(verbosity);
 			engine.setVerbosity(verbosity);
+			
+			engine.setLogger(logger);
 			for (Player p: v.players) {
 				if (p instanceof VirtualPlayer){
 					((VirtualPlayer) p).setVerbosity(verbosity);
@@ -142,6 +148,8 @@ public class VirtualGamePro {
 			System.out.print(ANSI_CSI + "6A");
 
 		}
+		
+		logger.outputToFile();
 		
 		System.out.print(ANSI_CSI + "6B");
 	}

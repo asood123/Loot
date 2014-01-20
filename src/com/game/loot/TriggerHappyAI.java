@@ -2,6 +2,8 @@ package com.game.loot;
 
 import java.util.Random;
 
+import com.game.loot.Move.ACTION;
+
 /*
  * AI that always attacks if it can
  * Otherwise, flips a coin to draw or play merchant ship

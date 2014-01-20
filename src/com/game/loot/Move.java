@@ -1,37 +1,39 @@
 package com.game.loot;
 
-enum ACTION {
-	DRAW,
-	PLAY_MERCHANT_SHIP,
-	PLAY_ATTACK,
-	DISCARD;
-	
-	@Override
-	public String toString(){
-		String value = Card.ANSI_CYAN;
-		switch (ordinal()) {
-		case 0: 
-			value += "Draw";
-			break;
-		case 1: 
-			value += "Play";
-			break;
-		case 2: 
-			value += "Attack";
-			break;
-		case 3: 
-			value += "Discard";
-			break;
-		default: 
-			value += "Error";
-			break;
-		}
-		value += Card.ANSI_RESET;
-		return value;
-	}
-};
+
 
 public class Move {
+	public enum ACTION {
+		DRAW,
+		PLAY_MERCHANT_SHIP,
+		PLAY_ATTACK,
+		DISCARD;
+		
+		@Override
+		public String toString(){
+			String value = Card.ANSI_CYAN;
+			switch (ordinal()) {
+			case 0: 
+				value += "Draw";
+				break;
+			case 1: 
+				value += "Play";
+				break;
+			case 2: 
+				value += "Attack";
+				break;
+			case 3: 
+				value += "Discard";
+				break;
+			default: 
+				value += "Error";
+				break;
+			}
+			value += Card.ANSI_RESET;
+			return value;
+		}
+	};
+	
 	private ACTION action;
 	private Card card;
 	

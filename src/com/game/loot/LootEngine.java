@@ -2,6 +2,9 @@ package com.game.loot;
 
 import java.util.List;
 
+import com.game.loot.Move.ACTION;
+import com.game.loot.learning.AttackBattleLogger;
+
 public class LootEngine {
 	List<Player> players;
 	GamePlay gamePlay;
@@ -9,16 +12,22 @@ public class LootEngine {
 	final String ANSI_CLS = "\u001b[2J";
     final String ANSI_HOME = "\u001b[H";
     boolean verbose;
+    AttackBattleLogger logger;
 	
 	public LootEngine(List<Player> players, GamePlay gamePlay, GameState gameState) {
 		this.players = players;
 		this.gamePlay = gamePlay;
 		this.gameState = gameState;
 		this.verbose = true;
+		this.logger = null;
 	}
 	
 	public void setVerbosity(boolean v) {
 		this.verbose = v;
+	}
+	
+	public void setLogger(AttackBattleLogger logger) {
+		this.logger = logger;
 	}
 	
 	public void endGame() {
@@ -95,7 +104,8 @@ public class LootEngine {
 							System.out.println("Invalid move, please try again");
 						} else {
 							gameState.addMoveToHistory(nextMove);
-							player.addMove(nextMove); 
+							player.addMove(nextMove);
+							logger.logMove(gameState, nextMove, player);
 						}
 					}
 				}

@@ -267,7 +267,6 @@ public class Battle{
 			}
 		}
 	}
-
 	
 	public String toString() {
 		String toPrint = new String();
