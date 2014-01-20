@@ -17,8 +17,8 @@ public class AttackBattleFeatures {
 
 	public static String getFeatureHeaders() {
 		String output = "";
-		output += "numCardsInHand";
-		output += "valueOfMerchantCard";
+		output += "numCardsInHand" + " ";
+		output += "valueOfMerchantCard" + " ";
 		return output;
 	}
 	

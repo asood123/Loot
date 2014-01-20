@@ -37,7 +37,6 @@ public class AttackBattleLogger {
 		for (Player player : players) {
 			playerAttackBattleFeatures.put(player.getName(), new ArrayList<AttackBattleFeatures>());
 			try {
-				System.out.println(featureFilename + player.getName());
 				featureWriters.put(player.getName(), new PrintWriter(new BufferedWriter(new FileWriter(featureFilename + "-" + player.getName(), false))));
 				outputWriters.put(player.getName(), new PrintWriter(new BufferedWriter(new FileWriter(outputFilename + "-" + player.getName(), false))));
 				
@@ -64,6 +63,17 @@ public class AttackBattleLogger {
 	public void logMove(GameState gm, Move move, Player player) {
 		for (Battle battle : gm.getBattleList()) {
 			int numCardsInHand = player.getHandCount();
+			
+			// Need to calc what it was when the decision was made
+			// TODO(Derek):  Rework so we get the gamestate before the move is made
+			if (move.getAction() == ACTION.DRAW) {
+				numCardsInHand--;
+			}
+			
+			if (move.getAction() == ACTION.DISCARD) {
+				numCardsInHand++;
+			}
+			
 			AttackBattleFeatures features = new AttackBattleFeatures(numCardsInHand, battle.getMerchantShip().getValue());
 			
 			boolean attacked = false;
