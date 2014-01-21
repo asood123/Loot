@@ -93,7 +93,8 @@ public class AttackBattleLogger {
 					gm.getDeck().getCount(),
 					gm.getDiscardCards().getCount(),
 					battle.getWinningPlayer() == null ? true : false,
-					index);
+					index,
+					gm.getBattleList().size());
 			
 			boolean attacked = false;
 			// If the player attacks this battle, that's the output we're tracking
