@@ -3,7 +3,7 @@ package com.game.loot;
 import java.util.List;
 
 import com.game.loot.Move.ACTION;
-import com.game.loot.learning.AttackBattleLogger;
+import com.game.loot.learning.FeatureLogger;
 
 public class LootEngine {
 	List<Player> players;
@@ -12,7 +12,7 @@ public class LootEngine {
 	final String ANSI_CLS = "\u001b[2J";
     final String ANSI_HOME = "\u001b[H";
     boolean verbose;
-    AttackBattleLogger logger;
+    FeatureLogger logger;
 	
 	public LootEngine(List<Player> players, GamePlay gamePlay, GameState gameState) {
 		this.players = players;
@@ -26,7 +26,7 @@ public class LootEngine {
 		this.verbose = v;
 	}
 	
-	public void setLogger(AttackBattleLogger logger) {
+	public void setLogger(FeatureLogger logger) {
 		this.logger = logger;
 	}
 	

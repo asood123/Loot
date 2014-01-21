@@ -8,7 +8,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
 
+import com.game.loot.learning.AttackBattleFeatures;
 import com.game.loot.learning.AttackBattleLogger;
+import com.game.loot.learning.FeatureLogger;
+import com.game.loot.learning.WhichMoveFeatures;
+import com.game.loot.learning.WhichMoveLogger;
 
 
 /*
@@ -114,7 +118,7 @@ public class VirtualGamePro {
 		v.readArgs(args, v.origPlayers);
 		
 		
-		AttackBattleLogger logger = new AttackBattleLogger(v.origPlayers, "/tmp/features", "/tmp/outputs");
+		FeatureLogger logger = new WhichMoveLogger(v.origPlayers, "/tmp/whichmove-features", "/tmp/whichmove-outputs", new WhichMoveFeatures());
 		if (games > 0) {
 			v.totalGames = games;
 		}

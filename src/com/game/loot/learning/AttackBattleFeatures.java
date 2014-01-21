@@ -1,6 +1,6 @@
 package com.game.loot.learning;
 
-public class AttackBattleFeatures {
+public class AttackBattleFeatures extends Features {
 	int numCardsInHand;
 	int valueOfMerchantCard;
 	int playersInBattle;
@@ -20,6 +20,10 @@ public class AttackBattleFeatures {
 		this.attacked = attacked;
 	}
 
+	public AttackBattleFeatures() {
+		// hacky, allow for static
+	}
+	
 	public AttackBattleFeatures(int numCardsInHand,
 			int valueOfMerchantCard,
 			int playersInBattle,
@@ -46,7 +50,8 @@ public class AttackBattleFeatures {
 		this.numTotalBattles = numTotalBattles;
 	}
 
-	public static String getFeatureHeaders() {
+	@Override
+	public String getFeatureHeaders() {
 		String output = "";
 		output += "numCardsInHand" + " ";
 		output += "valueOfMerchantCard" + " ";
@@ -63,6 +68,7 @@ public class AttackBattleFeatures {
 		return output;
 	}
 	
+	@Override
 	public String getFeaturesString() {
 		String output = "";
 		output += numCardsInHand + " ";
@@ -80,15 +86,8 @@ public class AttackBattleFeatures {
 		return output;
 	}
 	
-	public static String getOutputHeader() {
+	@Override
+	public String getOutputHeader() {
 		return "Attacked";
-	}
-
-	public String getOutputString() {
-		if (attacked) {
-			return "1";
-		} else {
-			return "0";
-		}
 	}
 }
