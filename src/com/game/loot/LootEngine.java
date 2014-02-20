@@ -101,7 +101,10 @@ public class LootEngine {
 						}
 						
 						// This assumes that the nextMove is valid...if not then we're logging extra data
-						logger.logMove(gameState, nextMove, player);
+						if (logger != null) {
+							logger.logMove(gameState, nextMove, player);
+						}
+						
 						validMove = gamePlay.executeMove(player, nextMove);
 						if (!validMove) {
 							System.err.println("Invalid move, please try again");

@@ -59,15 +59,21 @@ public class PhysicalPlayer extends Player {
 
 				if (input.equalsIgnoreCase("d") || input.equalsIgnoreCase("draw")
 						|| input.equalsIgnoreCase("")) {
-					if (deckSize > 0) {
+					if (deckSize > 0 || !virtualGamePlay) {
 						return new Move(ACTION.DRAW, null, null);
 					}
 					else {
 						System.out.println("No cards left to draw. Pick another move.");
 					}
 				}
-				else if (hand.findCardFromString(input) != null){
-	            	Card playCard = hand.findCardFromString(input);
+				else if (hand.findCardFromString(input) != null || !virtualGamePlay){
+					Card playCard;
+					if (virtualGamePlay) {
+						playCard = hand.findCardFromString(input);
+					}
+					else {
+						playCard = Card.stringToCard(input);
+					}
 	            	// If we're playing a Merchant Ship, return that Move
 	            	if (playCard != null && playCard instanceof MerchantShip) {
 	            		return new Move(ACTION.PLAY_MERCHANT_SHIP, playCard, null);
@@ -116,8 +122,8 @@ public class PhysicalPlayer extends Player {
 	@Override
 	public void addCard(Card card) {
 		if (virtualGamePlay) {
-			System.out.println("Just got card: " + card);
 			hand.addCard(card);
+			System.out.println("I'm " + getName() + " and I just got card: " + card + "  and my hand is now:  " + hand);
 		} else {
 			handCount++;
 		}
@@ -127,6 +133,7 @@ public class PhysicalPlayer extends Player {
 	public void removeCard(Card card) {
 		if (virtualGamePlay) {
 			hand.removeCard(card);
+			System.out.println("I'm " + getName() + " and I just removed card: " + card + "  and my hand is now:  " + hand);
 		} else {
 			handCount--;
 		}

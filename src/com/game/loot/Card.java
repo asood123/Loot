@@ -15,6 +15,56 @@ public abstract class Card {
 	public static final String ANSI_PURPLE = "\u001B[35m";
 	public static final String ANSI_CYAN = "\u001B[36m";
 	public static final String ANSI_WHITE = "\u001B[37m";
+	
+	public static Card stringToCard(String input) {
+		int num = 0;
+		
+		if (input.length() == 2) {
+			// pX, mX, tX
+			if (input.toLowerCase().startsWith("t")) {
+				if (input.substring(1).equalsIgnoreCase("a")) {
+					return new Trump(Color.Admiral);
+				}
+				else if (input.substring(1).equalsIgnoreCase("b")) {
+					return new Trump(Color.Blue);
+				}
+				else if (input.substring(1).equalsIgnoreCase("g")) {
+					return new Trump(Color.Green);
+				}
+				else if (input.substring(1).equalsIgnoreCase("p")) {
+					return new Trump(Color.Purple);
+				}
+				else if (input.substring(1).equalsIgnoreCase("y")) {
+					return new Trump(Color.Yellow);
+				}
+			}
+			else {
+				num = Integer.parseInt(input.substring(1));
+				
+				if (input.toLowerCase().startsWith("m")) {
+					if (num >= 2 && num <= 8) {
+						return new MerchantShip(num);
+					}
+				}
+				else if (num >=1 && num <= 4) {
+					if (input.toLowerCase().startsWith("b")) {
+						return new PirateShip(num, Color.Blue);
+					}
+					else if (input.toLowerCase().startsWith("g")) {
+						return new PirateShip(num, Color.Green);
+					}
+					else if (input.toLowerCase().startsWith("p")) {
+						return new PirateShip(num, Color.Purple);
+					}
+					else if (input.toLowerCase().startsWith("y")) {
+						return new PirateShip(num, Color.Yellow);	
+					}
+				}
+
+			}
+		}
+		return null;
+	}
 }
 
 enum Color {
